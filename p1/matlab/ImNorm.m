@@ -1,4 +1,5 @@
 function out = ImNorm(in, N, M)
+in = double(in);
 out = double(in);
 for i=1:N
     for j=1:M
