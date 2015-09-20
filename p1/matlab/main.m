@@ -3,9 +3,9 @@ load('cifar10testdata.mat');
 load('CNNparameters.mat');
 load('debuggingTest.mat');
 
-NeuralNet(imageset, filterbanks, biasvectors, trueclass);
+out = NeuralNet(imageset, filterbanks, biasvectors, trueclass);
 
-surf(classes)
+surf(out{2});
 
 %{
 for classindex = 1:10
