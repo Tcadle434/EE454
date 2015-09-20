@@ -1,3 +1,3 @@
-RGB = imread('boat.jpg');
-RGB2 = imresize(RGB, [32,32,3]);
+RGB = imread('chipmunk.jpg');
+RGB2 = imresize(RGB,[32 32]);
 imagesc(RGB);
