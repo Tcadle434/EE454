@@ -1,7 +1,7 @@
 function out = convolve(in,N,M,D,filterBank,biases)
     im = double(in);
     out = im;
-    oneMatrix = ones(N,M,D);
+    oneMatrix = ones(N,M,1);
     for l=1:D
         lfilter = filterBank(:,:,:,l);
         sums = zeros(N,M,1);
