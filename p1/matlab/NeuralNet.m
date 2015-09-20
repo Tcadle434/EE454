@@ -93,6 +93,6 @@ for i=1:numImages
     display(i); % Keep track of the iteration.
 end
 
-out = [ probOutput, classes ];
+out = { probOutput, classes };
 
 end
