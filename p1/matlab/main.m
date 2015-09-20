@@ -2,7 +2,7 @@ load('cifar10testdata.mat');
 load('CNNparameters.mat');
 load('debuggingTest.mat');
 
-FuCd(filterbanks{17}, filterbanks{17}, 1)
+FuCd(layerResults{16}, filterbanks{17}, biasvectors{17})
 
 for classindex = 1:10
     %get indices of all images of that class
