@@ -7,8 +7,17 @@ load('debuggingTest.mat');
 dimImageSet = size(imageset);
 numImages = dimImageSet(4);
 
-for i=1:1 % CHANGE ME
-    img = imrgb; % CHANGE ME
+% Create the output matrix
+probOutput = zeros(numImages, 10);
+
+% Create the classification matrix
+% i - ground truth
+% j - cnn output
+classes = zeros(10, 10);
+
+for i=1:numImages
+    img = imageset(:,:,:,i);
+    %img = imrgb; % CHANGE ME
     
     % Layer 1 - Normalize
     imgDim = size(img);
@@ -74,8 +83,22 @@ for i=1:1 % CHANGE ME
     % Layer 18 - Soft Max
     imgDim = size(img);
     img = Softmax(img, imgDim(3));
+    
+    % Map the output
+    probOutput(i,:) = img;
+    
+    % Add to the confusion matrix...
+    [maxValue, indexValue] = max(img);
+    
+    tmp = classes( trueclass(1,i) , indexValue );
+    classes( trueclass(1,i) , indexValue ) = tmp + 1;
+    
+    display(i); % Keep track of the iteration.
 end
 
+surf(classes)
+
+%{
 for classindex = 1:10
     %get indices of all images of that class
     inds = find(trueclass==classindex);
@@ -118,5 +141,4 @@ classprobvec=squeeze(layerResults{end});
 %note, classlabels is defined in 'cifar10testdata.mat'
 fprintf('estimated class is %s with probability %.4f\n',...
     classlabels{maxclass},maxprob);
-
-
+%}
