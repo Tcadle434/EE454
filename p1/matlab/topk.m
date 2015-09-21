@@ -3,7 +3,7 @@
 % where k is the index in the vector
 function out = topk(probs,trueclass)
     dims = size(probs);
-    out = double(zeros(dims(2)));
+    out = double(zeros(dims(2),1));
     for k=1:dims(2)
         count = 0;
         for j=1:dims(1)

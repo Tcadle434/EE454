@@ -9,9 +9,16 @@ function out = keyvalsort(arr)
     
     for i=1:sz(2)
        index = 1;
-       while(index < sz(2) && arr(index) < out(index,2))
+       while(index < sz(2) && arr(i) < out(index,2))
            index = index + 1;
        end
+       
+       j = sz(2);
+       while(j>index)
+           out(j,:) = out(j-1,:);
+           j = j-1;
+       end
+       
        out(index,1) = i;
        out(index,2) = arr(i);
     end
