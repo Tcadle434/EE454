@@ -3,11 +3,11 @@
 % where k is the index in the vector
 function out = topk(probs,trueclass)
     dims = size(probs);
-    out = double(zeros(10));
+    out = double(zeros(dims(2)));
     for k=1:dims(2)
         count = 0;
         for j=1:dims(1)
-            karray = sort(probs(j));
+            karray = keyvalsort(probs(j,:));
             for kk=1:k
                if(karray(kk,1) == trueclass(j))
                    count = count + 1;
@@ -15,6 +15,6 @@ function out = topk(probs,trueclass)
                end
             end
          end
-        out(1) = count/dims(1);
+        out(k) = count/dims(1);
     end
 end
