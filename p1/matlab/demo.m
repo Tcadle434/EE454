@@ -1,5 +1,6 @@
 % Load a sample image
 load('CNNparameters.mat');
+load('cifar10testdata.mat');
 load('debuggingTest.mat');
 
 imageset = zeros(32, 32, 3, 2);
