@@ -10,7 +10,7 @@ probOutput = zeros(numImages, 10);
 % Create the classification matrix
 % i - ground truth
 % j - cnn output
-classes = zeros(10, 10);
+classes = zeros(11, 11);
 
 for i=1:numImages
     img = imageset(:,:,:,i);
