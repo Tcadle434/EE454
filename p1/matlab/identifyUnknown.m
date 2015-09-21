@@ -1,7 +1,6 @@
 function pairs = identifyUnknown(testtrueclass, probVectors)
     temp = size(probVectors);
     numImages=temp(1);
-    numProbs=temp(2);
     count = 0;
     for i = 1:numImages
         % difference between 2 maxes
@@ -11,7 +10,8 @@ function pairs = identifyUnknown(testtrueclass, probVectors)
         max2 = max(probVectors(i,:));
         probVectors(i,index) = max1;
         diff = max1 - max2;
-        
+    end    
         % subtract mean
+        
     end
 end
