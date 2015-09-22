@@ -2,8 +2,8 @@
 load('cifar10testdata.mat');
 load('CNNparameters.mat');
 load('debuggingTest.mat');
-load('testimageset.mat');
-load('testtrueclass.mat');
+load('exploratory_image_stuff.mat');
+
 
 out = NeuralNet(testimageset, filterbanks, biasvectors, testtrueclass);
 
