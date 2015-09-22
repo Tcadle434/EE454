@@ -14,7 +14,7 @@ function pairs = identify_exploratory(testtrueclass, probVectors)
         diff = max1 - max2;
         
         pairs(1,i) = testtrueclass(i);
-        if ( diff < .0125 )
+        if ( diff < .25 )
             pairs(2,i) = 11;
         else
             pairs(2,i) = index;

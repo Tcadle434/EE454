@@ -5,7 +5,7 @@ load('debuggingTest.mat');
 load('exploratory_image_stuff.mat');
 
 
-%exploratoryResult = NeuralNet(testimageset, filterbanks, biasvectors, testtrueclass);
+exploratoryResult = NeuralNet(testimageset, filterbanks, biasvectors, testtrueclass);
 
 dims = size(exploratoryResult{1});
 numImages = dims(1);
