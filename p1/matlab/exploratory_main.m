@@ -5,9 +5,28 @@ load('debuggingTest.mat');
 load('exploratory_image_stuff.mat');
 
 
-out = NeuralNet(testimageset, filterbanks, biasvectors, testtrueclass);
+%exploratoryResult = NeuralNet(testimageset, filterbanks, biasvectors, testtrueclass);
 
-surf(out{2});
+dims = size(exploratoryResult{1});
+numImages = dims(1);
+
+exploratoryResult{2} = zeros(11,11);
+identifications = identify_exploratory(testtrueclass,exploratoryResult{1});
+
+
+for i=1:numImages
+    exploratoryResult{2}(identifications(1,i),identifications(2,i)) = ...
+        1 + exploratoryResult{2}(identifications(1,i),identifications(2,i));
+end
+
+correctClass = 0;
+for i=1:11
+   correctClass = correctClass + exploratoryResult{2}(i,i); 
+end
+
+display(double(correctClass/numImages));
+
+surf(exploratoryResult{2});
 
 %{
 for classindex = 1:10
