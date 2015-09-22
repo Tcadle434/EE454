@@ -1,1 +1,4 @@
 *.asv
+*.docx#
+*.gz
+p1/report/latex/draft.log
