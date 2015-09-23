@@ -34,13 +34,13 @@ Included in the appendix attached to this report.
 
 \section{Further Exploration}
 \subsection{Test Cases}
-To test the robustness/accuracy of the training outside of the given data set, additional test images were gathered and fed into the RNN.  Images were rescaled to thumbnail size (32x32x3) with the Matlab command
+To test the robustness/accuracy of the training outside of the given data set, additional test images were gathered and fed into the CNN.  Images were rescaled to thumbnail size (32x32x3) with the Matlab command
 \begin{lstlisting}
 thumbnail = imresize(img, [32 32]);
 \end{lstlisting}
 
 \noindent
-110 images total were collected; 100 fell into the preexisting image classes, 10 contained scenes not falling into any preexisting class.  Running these new 10 images through the RNN yielded the following results:\\
+110 images total were collected; 100 fell into the preexisting image classes, 10 contained scenes not falling into any preexisting class.  Running these new 10 images through the CNN yielded the following results:\\
 
 \begin{tabular}{ | c | c | c |}
   \hline
@@ -60,7 +60,7 @@ thumbnail = imresize(img, [32 32]);
 \end{tabular}
 
 \subsection{Reclassification}
-An attempt was made to distinguish these 10 images from the rest of the data set (i.e. reclassify these 10 images as unknown).  Let $V$ be the vector of output probabilities from the RNN for each image.  Let $C$ be the classification of the image producing probability vector $V$.  Originally, we have\\~\\
+An attempt was made to distinguish these 10 images from the rest of the data set (i.e. reclassify these 10 images as unknown).  Let $V$ be the vector of output probabilities from the CNN for each image.  Let $C$ be the classification of the image producing probability vector $V$.  Originally, we have\\~\\
 \begin{math}
 p_i \in V \\
 p_{max} = \max(p_1, p_2,...,p_{10}) \\
