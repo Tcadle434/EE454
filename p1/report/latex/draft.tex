@@ -23,6 +23,8 @@
 
 \section{Procedural Approach}
 
+
+
 \section{Experimental Observations}
 
 \subsection{Intermediate Output}
@@ -30,7 +32,46 @@
 Included in the appendix attached to this report.  Each figure shows the concatenated output of each layer as a gray scale image.
 
 \section{Performance Evaluation}
+\subsection{Results}
+	The following results were the outcome of classifying images as the class associated with the highest probability in the probability vector.
+\begin{center}
+	\includegraphics[scale=0.8]{confusionmatrix}
+	~\\~\\
+	
+		Accuracy = 43.7\%
+\end{center}
 
+
+\begin{center}
+	\includegraphics[scale=0.7]{confsurf}
+	~\\~\\
+\end{center}
+\textbf{Discussion:}
+
+	
+   The surface plot above demonstrates how well the CNN classifies images. There is a very strong response on the diagonal which represents the correct classifications. What is interesting is that this matrix is somewhat diagonal. This demonstrates that if images in a class of images $C_1$ are being confused for images in a class of images $C_2$, then images in $C_2$ are also being confused for images in $C_1$. A lot of this confusion is entirely logical; for example, trucks and automobiles are frequently confused for each other. Another great example of confusion are cats and dogs are frequently confused for one another. We are again very impressed with how well the CNN because it not only detects similarities between images within a class, but it detects similarities amongst images spanning multiple classes.
+       
+    ~\\
+    \noindent
+    Note: The above results were produced using NeuralNet function located in 'NeuralNet.m'.
+
+\subsection{Looking at the Top-k Highest Probabilities}
+	The following subsection looks at how frequently an image's true class appears in one of the top-k ranked classes, as determined by probability scores sorted from highest to lowest.
+\begin{center}
+	\includegraphics[scale=0.8]{topktable}
+	Note: Accuracy is the percentage of times that the correct object class appeared in the top-k ranked classes, as determined by probability scores sorted form highest to lowest. 
+	~\\
+\end{center}
+\begin{center}
+	\includegraphics[scale=0.8]{topkplot}
+	~\\~\\
+\end{center}
+\textbf{Discussion:}
+      We were very surprised to see the top-k classification plot follow an exponential distribution. This demonstrates that the probability estimations provided by the CNN are accurate. We expected the probability estimations to be an arbitrary metric, but looking at the logarithmic nature of the plot it is clear that the probabilities are very accurate. 
+
+	~\\
+	\noindent
+	Note: The above results were produced using the topk function located in 'topk.m' and NeuralNet function located in 'NeuralNet.m'.
 
 \section{Further Exploration}
 \subsection{Test Cases}
