@@ -4,13 +4,19 @@
 \usepackage{graphicx}
 \usepackage{morefloats}
 \usepackage[toc,page]{appendix}
+<<<<<<< HEAD
 \usepackage{color}
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 
+=======
+\usepackage{titlesec}
+>>>>>>> master
 \graphicspath{ {../} }
+
+\newcommand{\sectionbreak}{\clearpage}
 
 \author{Sean Curran \\
 \and Stephen Durofchalk \\
@@ -79,7 +85,7 @@ Observation of the output from each layer is consistent with the project descrip
 \subsection{Results}
 	The following results were the outcome of classifying images as the class associated with the highest probability in the probability vector.
 \begin{center}
-	\includegraphics[scale=0.8]{confusionmatrix}
+	\includegraphics[scale=0.7]{confusionmatrix}
 	~\\~\\
 	
 		\textbf{Accuracy = 43.7\%}
@@ -87,7 +93,7 @@ Observation of the output from each layer is consistent with the project descrip
 
 
 \begin{center}
-	\includegraphics[scale=0.7]{confsurf}
+	\includegraphics[scale=0.6]{confsurf}
 	~\\~\\
 \end{center}
 \textbf{Discussion:}
@@ -144,6 +150,10 @@ thumbnail = imresize(img, [32 32]);
   \hline  
 \end{tabular}
 
+~\\~\\
+\noindent
+All of the exploratory images we used were either taken by us or were taken from Google Images. The code we used to read in the exploratory images can be found in 'getAllFiles.m' and 'getTrueClass.m'. We produced the results above by running the 10 images through the function found in 'NeuralNet.m' and classifying the images by assigning the image the class associated with the highest probability. The classification process was done manually.
+
 \subsection{Reclassification}
 An attempt was made to distinguish these 10 images from the rest of the data set (i.e. reclassify these 10 images as unknown).  Let $V$ be the vector of output probabilities from the CNN for each image.  Let $C$ be the classification of the image producing probability vector $V$.  Originally, we have\\~\\
 \begin{math}
@@ -166,7 +176,8 @@ C = 11 & $otherwise$
 \end{math}
 ~\\~\\
 Less precisely, the difference between the two peak responses was thresholded by .25; so, if there were two strong responses, the image is reclassified as unknown.
-
+~\\~\\
+The code used to reclassify images can be found in 'identify\_exploratory.m'.
 \subsection{Results After Reclassification}
 In the confusion matrix below, classes 1 through 10 are the same classifications.  Class 11 identifies an unknown image class. \\\\
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | }
@@ -198,7 +209,11 @@ The reclassification metric does well in replacing the 10 new images in the unkn
 \item Taking the spatial derivative of the probability vector; this metric actually produces zero-mean Gaussian noise with a very small standard deviation.
 \end{enumerate}
 
+~\\~\\
+The code used to produce the results found in this section can be found in 'exploratory\_main.m'.
+
 \section{Member Contributions}
+	Overall the contributions made form each team member were pretty even. Whenever the team met to work on the project most of the team members were in attendance. Everyone who was in attendance at each team meeting attempted to work on a different piece of the project to ensure that we were making steady progress. The coding was not split up evenly as one team member did not attend the initial meeting and as a result he missed most of the actual coding and basically all of the design decisions. We attempted to split the report up evenly, but as the deadline approached scheduling meetings became difficult and some individuals were unavailable to work on the report. In conclusion, the work was not split up evenly among our four group members, but everyone attempted to contribute.
 
 \newpage
 \begin{appendices}
