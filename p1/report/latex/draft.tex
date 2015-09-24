@@ -196,7 +196,7 @@ thumbnail = imresize(img, [32 32]);
 
 ~\\~\\
 \noindent
-All of the exploratory images we used were either taken by us or were taken from Google Images. The code we used to read in the exploratory images can be found in 'getAllFiles.m' and 'getTrueClass.m'. We produced the results above by running the 10 images through the function found in 'NeuralNet.m' and classifying the images by assigning the image the class associated with the highest probability. The classification process was done manually.
+All of the exploratory images we used were either taken by us or were taken from Google Images. The code we used to read in the exploratory images can be found in `getAllFiles.m' and `getTrueClass.m'. We produced the results above by running the 10 images through the function found in `NeuralNet.m' and classifying the images by assigning the image the class associated with the highest probability. The classification process was done manually.
 
 \subsection{Reclassification}
 An attempt was made to distinguish these 10 images from the rest of the data set (i.e. reclassify these 10 images as unknown).  Let $V$ be the vector of output probabilities from the CNN for each image.  Let $C$ be the classification of the image producing probability vector $V$.  Originally, we have\\~\\
