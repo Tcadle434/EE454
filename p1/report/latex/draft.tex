@@ -151,15 +151,16 @@ Observation of the output from each layer is consistent with the project descrip
 	The following subsection looks at how frequently an image's true class appears in one of the top-k ranked classes, as determined by probability scores sorted from highest to lowest.
 \begin{center}
 	\includegraphics[scale=0.8]{topktable}
+
+\end{center}
 	Note: Accuracy is the percentage of times that the correct object class appeared in the top-k ranked classes, as determined by probability scores sorted form highest to lowest. 
 	~\\
-\end{center}
 \begin{center}
 	\includegraphics[scale=0.8]{topkplot}
 	~\\~\\
 \end{center}
 \textbf{Discussion:}
-      We were very surprised to see the top-k classification plot follow an exponential distribution. This demonstrates that the probability estimations provided by the CNN are accurate. We expected the probability estimations to be an arbitrary metric, but looking at the logarithmic nature of the plot it is clear that the probabilities are very accurate. 
+      We were very surprised to see the top-k classification plot follow a logarithmic distribution. This demonstrates that the probability estimations provided by the CNN are accurate. We expected the probability estimations to be an arbitrary metric, used to find reasonable classification for an image, but looking at the logarithmic nature of the plot it is clear that the probabilities are very accurate. In fact, when looking at the probabilities for the 10,000 images you will find that on average an images top-k probabilities sum up to the y value shown above. For example, the average max probabilities for the 10,00 images is .4425 and 43.71\% of the time the max probability is correct. Even more interesting, the average of the top 2 probabilities added together for each image is .6646 and the chance of the true class being associated with one of the top two highest probabilities in its probability vector .6591, as shown above.
 
 	~\\
 	\noindent
