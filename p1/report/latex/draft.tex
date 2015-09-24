@@ -65,8 +65,42 @@ The purpose of this project was to implement a pre-trained convolutional neural 
 
 \subsubsection{Image Normalization}
 
+Image normalization takes each image and performs a linear scaling opera-
+tion on each pixel in the image. The result is an image where each pixel (in
+each channel) takes on a value in the range [-0.5 to 0.5].
+
+\lstinputlisting[frame=single]{../../matlab/ImNorm.m}
+
+\subsubsection{ReLU Layer}
+
+Rectification takes an input image and thresholds all the negative values to 0.  This layer emulates neurons with a particular activation function.
+
+\lstinputlisting[frame=single]{../../matlab/ReLU.m}
+
+\subsubsection{Pooling Layer}
+
+Pooling layers reduce variance in the image and reduce the overall size of the image by taking patches of the image and compressing that patch to a single pixel value.
+
+\lstinputlisting[frame=single]{../../matlab/Maxpool.m}
+
+\subsubsection{Convolutional Layer}
+
+The convolution operation takes a set of filters and bias values determined from the CNN's training phase and applies them over an image.  The filter is applied with a convolution operator, and the bias is then added to every resultant pixel.
 
 \lstinputlisting[frame=single]{../../matlab/convolve.m}
+
+\subsubsection{Fully-Connected Layer}
+
+The fully-connected layer takes the output from the previous layer and maps it against every neuron in the network.  The output is a 1D vector of classifications (realized with soft max).
+
+\lstinputlisting[frame=single]{../../matlab/FuCd.m}
+
+\subsubsection{Soft Max Layer}
+
+The soft max layer takes the output from the fully-connected layer and maps it as input to a probability space.  Each probability in the output of soft max corresponds to a classification likelihood.
+
+\lstinputlisting[frame=single]{../../matlab/Softmax.m}
+
 
 \section{Procedural Approach}
 
