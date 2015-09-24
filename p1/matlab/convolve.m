@@ -1,5 +1,5 @@
 %returns matrix out - the result of the convolution
-%in - is the image we are convulting agains
+%in - is the image we are convuling against
 %filterBank - array of filters to convolute in with
 %biases - array of biases to add after convolutions
 function out = convolve(in,filterBank,biases)
