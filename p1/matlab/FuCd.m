@@ -1,5 +1,10 @@
+%returns matrix out - A vector of non-normalized probabilites.  Pass to softmax to normalize.
+%img - The input image which will be fully connected to each filter.
+%filter - An array of filters to apply to the image.
+%biases - An array of biases to apply after the filter is applied.
 function out = FuCd(img, filter, bias)
 
+% Store the size of the parameters
 img = double(img);
 filter = double(filter);
 
@@ -14,6 +19,7 @@ d2 = filter_size(4);
 
 sum = 0;
 
+% For each dimension, convolve the filter with the image.
 for a=1:d2
     sum = 0;
 for i=1:n
@@ -25,5 +31,6 @@ for i=1:n
         end
     end
 end
+% Add the bias for the corresponding dimension.
     out(1,1,a) = sum + bias(a);
 end
