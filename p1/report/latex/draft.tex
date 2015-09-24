@@ -62,7 +62,7 @@
 \subsection{Purpose}
 The purpose of this project was to implement a pre-trained convolutional neural network (CNN) using MATLAB.  The CNN is composed of layers - each layer performs an operation on a set of input matrices and produces a corresponding output matrix.  When these layers are composed together, they produce a network; the input of this network is an image, and the output of this network is a vector of classification probabilities.
 
-Given a set of images where each image falls into a class, the neural net should be able to take the image as input and label the image.
+Given a set of images where each image falls into a class, the neural net should be able to take the image as input and label the image.  The test images provided also have ground-truth classifications; so, we can compare the results of the CNN with the ground truth labels to obtain a measure of accuracy.
 
 \subsection{Operations}
 
@@ -174,7 +174,6 @@ To test the robustness/accuracy of the training outside of the given data set, a
 \begin{lstlisting}
 thumbnail = imresize(img, [32 32]);
 \end{lstlisting}
-
 \noindent
 110 images total were collected; 100 fell into the preexisting image classes, 10 contained scenes not falling into any preexisting class.  Running these new 10 images through the CNN yielded the following results:\\
 
