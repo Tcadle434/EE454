@@ -4,6 +4,13 @@
 \usepackage{graphicx}
 \usepackage{morefloats}
 \usepackage[toc,page]{appendix}
+\usepackage{color}
+\usepackage{pdfpages}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
 \usepackage{titlesec}
 \graphicspath{ {../} }
 
@@ -18,21 +25,103 @@
 \lstset{language=Matlab}
 \renewcommand{\thesection}{\alph{section}}
 
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  otherkeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
 \begin{document}
 \maketitle
 
 \newpage
 \section{Project Summary}
 
+\subsection{Purpose}
+The purpose of this project was to implement a pre-trained convolutional neural network (CNN) using MATLAB.  The CNN is composed of layers - each layer performs an operation on a set of input matrices and produces a corresponding output matrix.  When these layers are composed together, they produce a network; the input of this network is an image, and the output of this network is a vector of classification probabilities.
+
+\subsection{Operations}
+
+\subsubsection{Image Normalization}
+
+Image normalization takes each image and performs a linear scaling opera-
+tion on each pixel in the image. The result is an image where each pixel (in
+each channel) takes on a value in the range [-0.5 to 0.5].
+
+\lstinputlisting[frame=single]{../../matlab/ImNorm.m}
+
+\subsubsection{ReLU Layer}
+
+Rectification takes an input image and thresholds all the negative values to 0.  This layer emulates neurons with a particular activation function.
+
+\lstinputlisting[frame=single]{../../matlab/ReLU.m}
+
+\subsubsection{Pooling Layer}
+
+Pooling layers reduce variance in the image and reduce the overall size of the image by taking patches of the image and compressing that patch to a single pixel value.
+
+\lstinputlisting[frame=single]{../../matlab/Maxpool.m}
+
+\subsubsection{Convolutional Layer}
+
+The convolution operation takes a set of filters and bias values determined from the CNN's training phase and applies them over an image.  The filter is applied with a convolution operator, and the bias is then added to every resultant pixel.
+
+\lstinputlisting[frame=single]{../../matlab/convolve.m}
+
+\subsubsection{Fully-Connected Layer}
+
+The fully-connected layer takes the output from the previous layer and maps it against every neuron in the network.  The output is a 1D vector of classifications (realized with soft max).
+
+\lstinputlisting[frame=single]{../../matlab/FuCd.m}
+
+\subsubsection{Soft Max Layer}
+
+The soft max layer takes the output from the fully-connected layer and maps it as input to a probability space.  Each probability in the output of soft max corresponds to a classification likelihood.
+
+\lstinputlisting[frame=single]{../../matlab/Softmax.m}
+
 \section{Procedural Approach}
 
+\subsection{Design Discussion}
 
+There was a general design that we collectively decided would be the best approach to attacking the recreation of the Convolutional Neural Network. This was a bottom up design. Working from the bottom we created the features of the CNN first.  These features being the fundamental layers an image would be filtered through after being broken down through normalization and convolution.  Once these features were established we then looked upwards towards a more directed approach of connecting them together to form the desired filtered network. Because we were given a table of the path of the network this step was easy to implement. The output of one layer feature became the input of another and so on. At this point the network was wrapped into a higher layer structure that was dynamic in nature.  Acting like a black box function given an array of images and set of parameters a matrix output of probabilities could be produced.  
+
+Design implementations were also taken closely into consideration. Our Matlab coding reflects procedural programming more commonly found in the C language. This was done in creating supporting files, functional programming, and nested for loop structures.  A few of the supporting files consisted of the convolve, the ReLU, and the maxpool function. Function calls in the neuralNet script called to these functions passing the necessary parameters along with it. These functions are much like functional programming in c++ where the purpose is to have a module or block of program code that handles a particular task.  These modules come in handy for being reusable.  By implementing this into our neural net we are able to greatly reduce the number of lines in our code while at the same time making it more robust. We have assurance in the function that when we call that section of code to handle a specific job it will stand by itself.  Digging deeper into these function modules there was also some design implementation at a lower level.  In the project description under the basic operations all of the computational building blocks defined using summations. For example in fully connected the output is determined by summations in all dimensions of the image including the rows columns and channels. We extracted this summation notation and created nested for loop structures to handle looping through all iterations of the dimensions and computing the summations in a totaling type of way. In fact the for loop structure was used throughout the project even in the neuralNet code.  It was decided that the for loop be used here for the vast amount of images that have to be run through the CNN to produce the probability vectors. 
+
+As a group few deviations from the project description were taken. The only noticeable deviations were towards the end in the grading section in which the questions were done out of order. For instance we partook on the exploratory mode of section 1e before testing some of the required performance evaluations.
+
+\newpage
+\includepdf[pages={1}]{../FlowChart_pdf_1b.pdf}
 
 \section{Experimental Observations}
 
 \subsection{Intermediate Output}
 
-Intermediate output generated by the CNN is included in the appendix attached to this report.  Each figure shows the concatenated output of each layer as a gray scale image.
+Intermediate output generated by the CNN is included in the appendix attached to this report.  Each figure shows the concatenated output of each layer as a gray scale image.  The images can be produced by running `demo.m.'
+
+Observation of the output from each layer is consistent with the project description.  Normalization produces an image with scaled pixel values but is relatively unchanged.  Convolution produces a set of images with different feature sets extracted.  The ReLu produces an image with a 0 threshold (MATLAB's imagesc command slightly changes the output image because the range of the pixel values in the image changes).  Max Pooling reduces the size of the image by a factor of (nxn) and has the effect of making the previous image look more ``blocky'' via down-sampling.  Finally, we have the fully-connected layer and the soft max layer which produce a vector of classification probabilities from the image which are represented by the bar graph.
 
 \section{Performance Evaluation}
 \subsection{Results}
@@ -41,7 +130,7 @@ Intermediate output generated by the CNN is included in the appendix attached to
 	\includegraphics[scale=0.7]{confusionmatrix}
 	~\\~\\
 	
-		Accuracy = 43.7\%
+		\textbf{Accuracy = 43.7\%}
 \end{center}
 
 
