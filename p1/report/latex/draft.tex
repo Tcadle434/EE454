@@ -248,7 +248,7 @@ Class &  &  &  &  &  &  &  &  &  &  &  &  \\ \hline
 ~\\~\\
 \textbf{Accuracy = 29.09\%}
 \\
-The reclassification metric does well in replacing the 10 new images in the unknown category, but also places images that were previously correctly classified in the unknown category.  Other metrics tested were
+The reclassification metric does well in placing the 10 new images in the unknown category, but it also incorrectly classifies many images as unknown.  Other metrics tested were:
 \begin{enumerate}
 \item Thresholding on the number of classes that had a response above 0.1 (the mean value for random classification)
 \item Taking the spatial derivative of the probability vector; this metric actually produces zero-mean Gaussian noise with a very small standard deviation.
