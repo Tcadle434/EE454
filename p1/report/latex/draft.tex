@@ -104,16 +104,15 @@ The soft max layer takes the output from the fully-connected layer and maps it a
 
 \section{Procedural Approach}
 
-\subsection{Design Discussion}
+\subsection{Overview}
 
-There was a general design that we collectively decided would be the best approach to attacking the recreation of the Convolutional Neural Network. This was a bottom up design. Working from the bottom we created the features of the CNN first.  These features being the fundamental layers an image would be filtered through after being broken down through normalization and convolution.  Once these features were established we then looked upwards towards a more directed approach of connecting them together to form the desired filtered network. Because we were given a table of the path of the network this step was easy to implement. The output of one layer feature became the input of another and so on. At this point the network was wrapped into a higher layer structure that was dynamic in nature.  Acting like a black box function given an array of images and set of parameters a matrix output of probabilities could be produced.  
-
-Design implementations were also taken closely into consideration. Our Matlab coding reflects procedural programming more commonly found in the C language. This was done in creating supporting files, functional programming, and nested for loop structures.  A few of the supporting files consisted of the convolve, the ReLU, and the maxpool function. Function calls in the neuralNet script called to these functions passing the necessary parameters along with it. These functions are much like functional programming in c++ where the purpose is to have a module or block of program code that handles a particular task.  These modules come in handy for being reusable.  By implementing this into our neural net we are able to greatly reduce the number of lines in our code while at the same time making it more robust. We have assurance in the function that when we call that section of code to handle a specific job it will stand by itself.  Digging deeper into these function modules there was also some design implementation at a lower level.  In the project description under the basic operations all of the computational building blocks defined using summations. For example in fully connected the output is determined by summations in all dimensions of the image including the rows columns and channels. We extracted this summation notation and created nested for loop structures to handle looping through all iterations of the dimensions and computing the summations in a totaling type of way. In fact the for loop structure was used throughout the project even in the neuralNet code.  It was decided that the for loop be used here for the vast amount of images that have to be run through the CNN to produce the probability vectors. 
-
-As a group few deviations from the project description were taken. The only noticeable deviations were towards the end in the grading section in which the questions were done out of order. For instance we partook on the exploratory mode of section 1e before testing some of the required performance evaluations.
+This section will highlight some of the key design decisions we made and will try to provide some insight on why we made said decisions. First and foremost, we decided to make the CNN modular in-order to facilitate code re-usage. For example, we only wrote one convolution function that is reused 9 times throughout the CNN. The decision to modularize the CNN and make functions general allowed us to be more productive while insuring that our code was correct. It is also worth noting that this design decision forced us to work in a bottom-up manner.
 
 \newpage
 \includepdf[pages={1}]{../FlowChart_pdf_1b.pdf}
+
+\subsection{Diving a Little Deeper}
+In almost every function we chose C-like code as opposed to using linear algebra to accomplish the same tasks. We choose to use C-like code because that was by far more natural to all of us. We also choose to make some of our functions as general as possible so they could be used outside of the CNN. For example, we were able to reuse the 'NeuralNet' function on the images we gathered from the Internet because it was not reliant on specifics such as the number of images being passed through the CNN.
 
 \section{Experimental Observations}
 
