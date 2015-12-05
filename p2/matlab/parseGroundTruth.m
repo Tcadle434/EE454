@@ -5,7 +5,7 @@
 
 gtboxarray = [];
 
-foo = xml2struct('TUD-Stadtmitte.xml');
+foo = xml2struct('../xml/TUD-Stadtmitte.xml');
 frames = foo.dataset.frame;
 
 numframes = length(frames);
@@ -34,7 +34,7 @@ end
 %overlaid on each image. 
 figure(1); clf; set(gcf,'DoubleBuffer','On');
 for fnum=7022:7200
-    fname = sprintf('Frames/DaMultiview-seq%04d.png',fnum);
+    fname = sprintf('../frames/DaMultiview-seq%04d.png',fnum);
     im = imread(fname);
     imagesc(im); axis equal
     inds = find(gtboxarray(:,1)==fnum);
