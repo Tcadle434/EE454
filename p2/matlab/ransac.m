@@ -3,8 +3,8 @@ function [bestLineParam1,bestLineParam2] = ransac(data1,data2,numPoints,iteratio
 	bestLineParam2 = 0;
 	bestNumInliers = 0;
 	numDataPoints = size(data, 2);
-	distances = zeros(numDataPoints);
 	for i=1:iterations
+		numInliers = 0;
 		% grab 1 random pair of matching points
 		randIndex = randi([1 numDataPoints],1,1);	% random number between 1 and numDataPoints
 		randDataPoint1 = data1(:,randIndex);
@@ -29,12 +29,10 @@ function [bestLineParam1,bestLineParam2] = ransac(data1,data2,numPoints,iteratio
 			yreal = data2(2,j);
 			
 			% calculate distance from the predicted location of this point to its actual location
-			distances(j) = sqrt((xpred - xreal)^2 + (ypred - yreal)^2);
-		end
-		
-		% find the number of points whose distance is below our distance threshold
-		numInliers = length(find(abs(distances) <= thresholdDistance));
-		
+			distance = sqrt((xpred - xreal)^2 + (ypred - yreal)^2);
+			if (distance <= thresholdDistance)
+				numInliers++;
+		end	
 		if (numInliers >= (inlierRatio * numDataPoints) && numInliers > bestNumInliers)
 			bestNumInliers = numInliers;
 			bestLineParam1 = (y2-y1)/(x2-x1); % slope of best fit line
