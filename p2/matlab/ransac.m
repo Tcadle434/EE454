@@ -1,6 +1,6 @@
-function [bestLineParam1,bestLineParam2] = ransac(data1,data2,numPoints,iterations,thresholdDistance,inlierRatio)
-	bestLineParam1 = 0;
-	bestLineParam2 = 0;
+function [bestTX,bestTY] = ransac(data1,data2,numPoints,iterations,thresholdDistance,inlierRatio)
+	bestTX = 0;
+	bestTY = 0;
 	bestNumInliers = 0;
 	numDataPoints = size(data, 2);
 	for i=1:iterations
@@ -35,8 +35,8 @@ function [bestLineParam1,bestLineParam2] = ransac(data1,data2,numPoints,iteratio
 		end	
 		if (numInliers >= (inlierRatio * numDataPoints) && numInliers > bestNumInliers)
 			bestNumInliers = numInliers;
-			bestLineParam1 = (y2-y1)/(x2-x1); % slope of best fit line
-			bestLineParam2 = y1 - bestLineParam1*x1;	% y-intercept of best fit line
+			bestTX = tx;
+			bestTY = ty;
 		end
 	end
 end
