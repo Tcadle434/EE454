@@ -1,12 +1,13 @@
-function [bestTX,bestTY] = ransac(data1,data2,numPoints,iterations,thresholdDistance,inlierRatio)
+function [bestTX,bestTY] = ransac(data1,data2,iterations,thresholdDistance,inlierRatio)
 	bestTX = 0;
 	bestTY = 0;
 	bestNumInliers = 0;
-	numDataPoints = size(data, 2);
+	numDataPoints = size(data1, 2);
 	for i=1:iterations
 		numInliers = 0;
 		% grab 1 random pair of matching points
-		randIndex = randi([1 numDataPoints],1,1);	% random number between 1 and numDataPoints
+        % random number between 1 and numDataPoints
+		randIndex = randi([1 numDataPoints],1,1);	
 		randDataPoint1 = data1(:,randIndex);
 		randDataPoint2 = data2(:,randIndex);
 		
@@ -23,17 +24,19 @@ function [bestTX,bestTY] = ransac(data1,data2,numPoints,iterations,thresholdDist
 		
 		% loop through all data points
 		for j=1:numDataPoints
-			xpred = data1(1,j) + tx;
-			ypred = data1(2,j) + ty;
-			xreal = data2(1,j);
-			yreal = data2(2,j);
+			x_pred = data1(1,j) + tx;
+			y_pred = data1(2,j) + ty;
+			x_real = data2(1,j);
+			y_real = data2(2,j);
 			
-			% calculate distance from the predicted location of this point to its actual location
-			distance = sqrt((xpred - xreal)^2 + (ypred - yreal)^2);
+			% calculate distance from the predicted location ...
+            % of this point to its actual location
+			distance = sqrt((x_pred - x_real)^2 + (y_pred - y_real)^2);
 			if (distance <= thresholdDistance)
-				numInliers++;
+				numInliers = numInliers+1;
 		end	
-		if (numInliers >= (inlierRatio * numDataPoints) && numInliers > bestNumInliers)
+		if (numInliers >= (inlierRatio * numDataPoints) ...
+                && numInliers > bestNumInliers)
 			bestNumInliers = numInliers;
 			bestTX = tx;
 			bestTY = ty;
