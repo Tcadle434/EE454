@@ -40,10 +40,11 @@ end
 %run harris corner and get corners for each window
 %window is defined by column 2 in gtboxarray
 %below code identifies which windows are shared between all selected frames
-%if there is a common window then it runs harris on this window from each
+%if there is a common window then it runs harris on this window of each
 %frame
 message2 = 'running harris corners of matching windows of all frames:';
 disp(message2);
+
 firstFrameNum = gtboxarray(sFrameArr(1),1);
 tempIndex = sFrameArr(1);
 %disp(tempFrameNum);
