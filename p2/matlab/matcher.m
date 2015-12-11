@@ -101,6 +101,7 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
         
         [aboxes,cboxes] = assignmentoptimal(boxmatchmatrix);
         
+        %{
         for abox=1:numel(aboxes)
         
             w1 = gtboxarray(frame1boxstart+abox-1,:);
@@ -140,6 +141,7 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
             
                     
         end
+        %}
         
         windowMatches(frame) = {aboxes};
     end
