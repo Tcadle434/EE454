@@ -1,6 +1,14 @@
 function [ output_args ] = harris( img, xmin, xmax, ymin, ymax )
-%HARRIS Summary of this function goes here
-%   Detailed explanation goes here
+%HARRIS Uses Harris corner detection to compute corner-points in an image.
+% The corner detection is run on a box in the image as specified by
+% the function argument.
+%   img:            The image on which to perform corner detection
+%   xmin:           The starting x-coordinate of the box.
+%   xmax:           The ending x-coordinate of the box.
+%   ymin:           The starting y-coordinate of the box.
+%   ymax:           The ending y-coordinate of the box.
+%   output_args:    This variable will contain an intensity image - high
+%                   intensity values correspond to corners in the image.
 
 k = 0.07;
 
@@ -38,9 +46,7 @@ for i = 1:(ymax - ymin + 1)
     end
 end
 
-colormap(gray);
-imagesc(r);
-% imagesc(i_xy);
+output_args = r;
 
 end
 
