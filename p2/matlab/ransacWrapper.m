@@ -6,7 +6,7 @@ function [data1,data2] = ransacWrapper(cornerMatches,windowMatches,...
     % get the window in img1 and its corresponding window in img2
     w1 = windowPair;
     w2 = windowMatches{imagePair}(windowPair);
-	j = 0;
+	j = 1;
     
     % if there is a window match for the window in img1
     if (w2 ~= 0)
