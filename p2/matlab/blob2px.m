@@ -15,8 +15,6 @@ img_scaled = uint8(arrayfun(@(x) find(abs(d(:)-x)== min(abs(d(:)-x))), img));
 bw_img = img_scaled < threshold;
 bw_img = imcomplement(bw_img);
 
-imagesc(bw_img);
-sum(sum(bw_img))
 s = regionprops(bw_img, 'Centroid');
 
 for k = 1 : numel(s)
