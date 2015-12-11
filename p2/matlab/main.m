@@ -9,10 +9,10 @@ numOfFrames = 2; %set number frames
 frameSkipRate = 1; %distance between next frame chosen, greater the distance more of a change of windows
 frameindex = 7022;  %starting frame; range is 7024-7200s
 filepath = '../frames/DaMultiview-seq';
-threshold = 220;
-alpha = 0.5;
-cornerPatchSizeX = 6;
-cornerPatchSizeY = 6;
+threshold = 230;
+alpha = 0.15;
+cornerPatchSizeX = 20;
+cornerPatchSizeY = 20;
 
 [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex,...
     gtboxarray, filepath, threshold, alpha);

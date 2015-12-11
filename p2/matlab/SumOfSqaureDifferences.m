@@ -1,5 +1,8 @@
 function [ ssd ] = SumOfSqaureDifferences( i1,i2,p1,p2,x,y,w1,w2 )
     %make this a long?    
+    
+
+    
     ssd = double(0);
     t = 0;
     p1(1) = p1(1)-y/2;
@@ -28,7 +31,7 @@ function [ ssd ] = SumOfSqaureDifferences( i1,i2,p1,p2,x,y,w1,w2 )
     
     for i=1:x
       for j=1:y
-          for k=1:3
+          for k=1
                 %check this because there was an index out of bounds error
                 if ~(ip1y + j> dim1(1) || ip1x + i > dim1(2) || ...
                        ip2y + j > dim2(1) || ip2x + i > dim2(2))

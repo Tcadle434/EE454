@@ -34,8 +34,8 @@ for i = 1 : rows
     for j = 1 : cols
         if (bw_img(i,j) == 1)
             px = zeros(2,1);
-            px(1,1) = j;
-            px(2,1) = i;
+            px(1,1) = i;
+            px(2,1) = j;
             output_args = [output_args px];
         end
     end

@@ -30,6 +30,9 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
     filename = strcat(filename, '.png');
     i2 = imread(filename);
     
+    i1 = rgb2gray(i1);
+    i2 = rgb2gray(i2);
+    
     %cornerMatchesByWindow;% = [];%zeros(i1boxes,i2boxes);
     
         for b1 = 1:i1boxes
@@ -44,6 +47,39 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
                 i2corners = dim2(2);
        
                 cornermatchmatrix = zeros(i1corners,i2corners);
+                
+                   %{
+                    figure;
+                    imagesc(i1);
+
+                    hold on
+                    cs = corners{frame1boxstart+b1-1}(:,:);
+                    cs(1,:) = cs(1,:)+w1(4);
+                    cs(2,:) = cs(2,:)+w1(3);
+                    cs1 = cs;
+                    bb = w1;
+                    for k = 1 : numel(cs) / 2
+                        plot(cs(2,k), cs(1,k), 'r*');
+                        plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
+                    end
+                    hold off;
+                    
+                    figure;
+                    imagesc(i1);
+
+                    hold on
+                    cs = corners{frame2boxstart+b2-1}(:,:);
+                    bb = w2;
+                    cs(1,:) = cs(1,:)+w2(4);
+                    cs(2,:) = cs(2,:)+w2(3);
+                    cs2 = cs;
+                    for k = 1 : numel(cs) / 2
+                        plot(cs(2,k), cs(1,k), 'r*');
+                        plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
+                    end
+                    hold off;
+                   %}
+                
                 for c1 = 1:i1corners
                    for c2 = 1:i2corners
                         ssd = SumOfSqaureDifferences(...
