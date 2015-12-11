@@ -92,6 +92,7 @@ intensity_image harris(original_image, patch_indices) {
 }
 
 \end{lstlisting}
+This routine returns non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
 \subsection{Patch Matching}
 \subsection{RANSAC}
 
