@@ -1,4 +1,7 @@
 function [output, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex, gtboxarray, filenameArr, sFrameArr, threshold, alpha)
+   
+    output = [];
+
     filepath = '../frames/DaMultiview-seq';
    for n = 1:numOfFrames
         if frameindex < 7200  %make sure number of trials and skip rate doesnt exceed highest indexed frame
@@ -36,16 +39,16 @@ function [output, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex, gt
             %disp(gtboxarray(tempIndex,2));
             %windowNumber = gtboxarray(tempIndex,2);
             %scan rest of frames for matching window number
-            disp(gtboxarray(tempIndex,2));
+            % disp(gtboxarray(tempIndex,2));
             tXmin = gtboxarray(tempIndex,3);
             tXmax = gtboxarray(tempIndex,5);
             tYmin = gtboxarray(tempIndex,4);
             tYmax = gtboxarray(tempIndex,6);
-            disp(tYmax);
+            % disp(tYmax);
             str = char(filenameArr(n)); %convert cell to string
             image = imread(str);
             img = harris(image,tXmin,tXmax,tYmin,tYmax);
-            output = blob2px( img, threshold, alpha );
+            output = [output { blob2px( img, threshold, alpha ) }];
             tempIndex = tempIndex + 1;
         end
     end
