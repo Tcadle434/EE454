@@ -8,32 +8,21 @@
 \usepackage [dvipsnames]{xcolor}
 
 \lstset{ %
-  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-  breaklines=true,                 % sets automatic line breaking
-  captionpos=b,                    % sets the caption-position to bottom
-  commentstyle=\color{purple},    % comment style
-  deletekeywords={...},            % if you want to delete keywords from the given language
-  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-  frame=single,	                   % adds a frame around the code
-  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-  keywordstyle=\color{blue},       % keyword style
-  language=Octave,                 % the language of the code
-  otherkeywords={*,...},            % if you want to add more keywords to the set
-  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-  numbersep=5pt,                   % how far the line-numbers are from the code
-  % numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
-  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-  showstringspaces=false,          % underline spaces within strings only
-  showtabs=false,                  % show tabs within strings adding particular underscores
-  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
-  % stringstyle=\color{mymauve},     % string literal style
-  tabsize=2,	                   % sets default tabsize to 2 spaces
-  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+	language=C,
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\ttfamily\color{blue}\footnotesize,
+	commentstyle=\color{OliveGreen}\ttfamily\footnotesize,
+	texcl,
+	escapechar =`
+	escapebegin=\lst@commentstyle,
+	showspaces=false,
+	showtabs=false,
+	numbers=left,
+	showstringspaces=false,
+	frame=single
 }
+\makeatother
+
 
 \pagestyle{fancy}
 \renewcommand{\rightmark}{}
@@ -70,11 +59,38 @@
 Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image with relatively large $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial y}$ values.
 \subsubsection{Implementation}
 Below the implementation of the Harris corner detection algorithm in C-like pseudocode.
-\begin{lstlisting}[frame=single, language=C]
-// C-like psuedocode
+\begin{lstlisting}
+
 intensity_image harris(original_image, patch_indices) {
+
+	// Compute the image patch.
+	intensity_img = convert_to_intensity_image(original_image);
+	img_patch = compute_patch(intensity_img, patch_indices);
 	
+	// Compute partial x and y, mixed derivatives.
+	ix = convolve_sobel_x(img_patch);
+	iy = convolve_sobel_y(img_patch);
+	
+	ix2 = ix * ix;
+	iy2 = iy * iy;
+	ixy = ix * iy;
+
+	// Compute sums using a Gaussian windowing function
+	sx2 = convolve_gaussian(ix2);
+	sy2 = convolve_gaussian(iy2);
+	sxy = convolve_gaussian(ixy);
+	
+	// For each pixel in the image, compute H matrix,
+	// compute product of eigenvalues scaled by k = 0.07,
+	// and store the response value as r.
+	for (px : img_patch) {
+		H = {{sx2(px), sxy(px)}, {sxy(px) sy2(px)}};
+		r(px) = det(H) - 0.07 * trace(H) * trace(H);
+	}
+	
+	return r;
 }
+
 \end{lstlisting}
 \subsection{Patch Matching}
 \subsection{RANSAC}
