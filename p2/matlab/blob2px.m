@@ -1,7 +1,8 @@
-function [ output_args ] = blob2px( img, threshold )
+function [ output_args ] = blob2px( img, threshold, alpha )
 %BLOB2PX Takes an intensity image and computes blob centroids.
 %   img:            The intensity image.
 %   threshold:      Amount of thesholding to perform. Range [1-255]
+%   alpha:          Percent of blob to consider a corner.
 %   output_args:    Array containing pixel locations of corners.
 %                   First elem is row idx, second elem is col idx.
 
@@ -14,6 +15,8 @@ img_scaled = uint8(arrayfun(@(x) find(abs(d(:)-x)== min(abs(d(:)-x))), img));
 
 bw_img = img_scaled < threshold;
 bw_img = imcomplement(bw_img);
+
+bw_img = pruneMatrix(bw_img, alpha);
 
 s = regionprops(bw_img, 'Centroid');
 
