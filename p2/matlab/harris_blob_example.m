@@ -11,7 +11,7 @@ corners = blob2px(harris_img, threshold, alpha);
 
 hold on;
 for k = 1 : numel(corners) / 2
-    plot(corners(1,k), corners(2,k), 'r*');
+    plot(corners(2,k), corners(1,k), 'r*');
 end
 hold off;
 
@@ -24,6 +24,6 @@ corners2 = blob2px(harris_img2, threshold, alpha);
 
 hold on;
 for k = 1 : numel(corners2) / 2
-    plot(corners2(1,k), corners2(2,k), 'r*');
+    plot(corners2(2,k), corners2(1,k), 'r*');
 end
 hold off;
