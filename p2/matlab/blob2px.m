@@ -13,18 +13,32 @@ output_args = [];
 d = linspace(min(img(:)),max(img(:)),256);
 img_scaled = uint8(arrayfun(@(x) find(abs(d(:)-x)== min(abs(d(:)-x))), img));
 
+img_scaled = pruneMatrixScaled(img_scaled, alpha);
+
+% imagesc(img_scaled);
+
 bw_img = img_scaled < threshold;
 bw_img = imcomplement(bw_img);
 
-bw_img = pruneMatrix(bw_img, alpha);
+% s = regionprops(bw_img, 'Centroid');
+% 
+% for k = 1 : numel(s)
+%     px = zeros(2,1);
+%     px(1,1) = s(k).Centroid(1);
+%     px(2,1) = s(k).Centroid(2);
+%     output_args = [output_args px];
+% end
 
-s = regionprops(bw_img, 'Centroid');
-
-for k = 1 : numel(s)
-    px = zeros(2,1);
-    px(1,1) = s(k).Centroid(1);
-    px(2,1) = s(k).Centroid(2);
-    output_args = [output_args px];
+[rows,cols] = size(bw_img);
+for i = 1 : rows
+    for j = 1 : cols
+        if (bw_img(i,j) == 1)
+            px = zeros(2,1);
+            px(1,1) = j;
+            px(2,1) = i;
+            output_args = [output_args px];
+        end
+    end
 end
 
 end
