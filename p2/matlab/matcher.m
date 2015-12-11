@@ -6,21 +6,21 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
     
 %match up corners
     for frame = 1:numOfFrames-1
-    frame1 = frame;
-    frame2 = frame+1;
-    frame1boxstart = sFrameArr(frame1);
-    frame2boxstart = sFrameArr(frame2);
-    %number of boxes
-    i1boxes = frame2boxstart - frame1boxstart;
-    if frame ~= numOfFrames-1
-        i2boxes = sFrameArr(frame2+1) - frame2boxstart;
-    else
-        r = frame2boxstart;
-        while(frameindex+frame == gtboxarray(r,1))
-            r = r + 1;
+        frame1 = frame;
+        frame2 = frame+1;
+        frame1boxstart = sFrameArr(frame1);
+        frame2boxstart = sFrameArr(frame2);
+        %number of boxes
+        i1boxes = frame2boxstart - frame1boxstart;
+        if frame ~= numOfFrames-1
+            i2boxes = sFrameArr(frame2+1) - frame2boxstart;
+        else
+            r = frame2boxstart;
+            while(frameindex+frame == gtboxarray(r,1))
+                r = r + 1;
+            end
+            i2boxes = r-frame2boxstart;
         end
-        i2boxes = r-frame2boxstart;
-    end
     boxmatchmatrix = zeros(i1boxes,i2boxes);
     
     filename = strcat(filepath, num2str(frameindex+frame-1));

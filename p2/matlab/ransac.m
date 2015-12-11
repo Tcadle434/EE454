@@ -1,4 +1,6 @@
-function [bestTX,bestTY] = ransac(data1,data2,iterations,thresholdDistance,inlierRatio)
+function [bestTX,bestTY,translations,translationsByWindow] = ransac(...
+    data1,data2,iterations,thresholdDistance,inlierRatio, imagePair,...
+    windowPair, translations,translationsByWindow)
 	bestTX = 0;
 	bestTY = 0;
 	bestNumInliers = 0;
@@ -34,13 +36,17 @@ function [bestTX,bestTY] = ransac(data1,data2,iterations,thresholdDistance,inlie
 			distance = sqrt((x_pred - x_real)^2 + (y_pred - y_real)^2);
 			if (distance <= thresholdDistance)
 				numInliers = numInliers+1;
-		end	
+            end
+        end
 		if (numInliers >= (inlierRatio * numDataPoints) ...
                 && numInliers > bestNumInliers)
 			bestNumInliers = numInliers;
 			bestTX = tx;
 			bestTY = ty;
 		end
-	end
+    end
+    trans = [bestTY,bestTX];
+    translationsByWindow(windowPair) = {trans};
+    translations(imagePair) = {translationsByWindow};
 end
 
