@@ -1,18 +1,14 @@
-
-
+clear
+clc
 %fill gtboxarray which has window information ie. max's and min's
-parseGroundTruthSupressed;
+parseGroundTruth;
 
 numOfFrames = 2; %set number frames 
 frameSkipRate = 1; %distance between next frame chosen, greater the distance more of a change of windows
-frameindex = 7022;  %starting frame; range is 7024-7200s
+frameindex = 7022;  %starting frame; range is 7024-7200
 filepath = '../frames/DaMultiview-seq';
 filenameArr = {}; %filenames for selected frames 
 sFrameArr = [];    %starting indexes of selected frame for gtboxarray
-threshold = 40;
-alpha = 0.15;
-
-matchVals = phase1(numOfFrames, frameSkipRate, frameindex, gtboxarray, filenameArr, sFrameArr, threshold, alpha);
 
 
 %fill file name array and find the starting rows for frames in the
@@ -96,4 +92,5 @@ end
 
 
 
+    
     
