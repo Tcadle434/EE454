@@ -33,4 +33,18 @@ hold off;
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
 
 
-    
+count = 0;
+count2 = 0;
+for i=1:9
+    dims = size(windowMatches{i});
+    for j=1:dims(1)
+       if windowMatches{i}(j) == j
+           count = count + 1;
+       end
+       count2 = count2+1;
+    end
+end
+
+display(count);
+display(count2);
+display(double(count)/double(count2));

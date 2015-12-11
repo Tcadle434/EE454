@@ -97,10 +97,54 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
         end
         cornerMatches(frame) = {cornerMatchesByWindow};
         
+        
+        
         [aboxes,cboxes] = assignmentoptimal(boxmatchmatrix);
+        
+        for abox=1:numel(aboxes)
+        
+            w1 = gtboxarray(frame1boxstart+abox-1,:);
+            w2 = gtboxarray(frame2boxstart+aboxes(abox)-1,:);
+                
+            figure;
+            imagesc(i1);
+
+            hold on
+            cs = corners{frame1boxstart+b1-1}(:,:);
+            cs(1,:) = cs(1,:)+w1(4);
+            cs(2,:) = cs(2,:)+w1(3);
+            cs1 = cs;
+            bb = w1;
+            for k = 1 : numel(cs) / 2
+                plot(cs(2,k), cs(1,k), 'r*');
+                plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
+            end
+            hold off;
+
+            figure;
+            imagesc(i2);
+
+            hold on
+            cs = corners{frame2boxstart+b2-1}(:,:);
+            bb = w2;
+            cs(1,:) = cs(1,:)+w2(4);
+            cs(2,:) = cs(2,:)+w2(3);
+            cs2 = cs;
+            for k = 1 : numel(cs) / 2
+                plot(cs(2,k), cs(1,k), 'r*');
+                plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
+            end
+            hold off;
+            
+            close all force;
+            
+                    
+        end
+        
         windowMatches(frame) = {aboxes};
     end
 
+  
 
 end
 
