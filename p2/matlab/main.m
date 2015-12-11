@@ -5,14 +5,14 @@ parseGroundTruthSupressed;
 %gtboxarray(1,:)=gtboxarray(2,:);
 %gtboxarray(2,:)=temp;
 
-numOfFrames = 5; %set number frames 
+numOfFrames = 10; %set number frames 
 frameSkipRate = 1; %distance between next frame chosen, greater the distance more of a change of windows
 frameindex = 7022;  %starting frame; range is 7024-7200s
 filepath = '../frames/DaMultiview-seq';
 threshold = 235;
 alpha = 0.15;
-cornerPatchSizeX = 16;
-cornerPatchSizeY = 16;
+cornerPatchSizeX = 12;
+cornerPatchSizeY = 12;
 
 [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex,...
     gtboxarray, filepath, threshold, alpha);
