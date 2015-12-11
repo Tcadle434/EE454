@@ -5,6 +5,8 @@
 \usepackage{draftwatermark}
 \usepackage {sectsty}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
 \usepackage [dvipsnames]{xcolor}
 
 \lstset{ %
@@ -56,7 +58,7 @@
 \section{Integral Algorithms}
 \subsection{Harris Corner Detection}
 \subsubsection{Synopsis}
-Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image with relatively large $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial y}$ values.
+Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image located at coordinates $(x_0,y_0)$ such that $\frac{\partial f}{\partial x}(x_0,y_0)$ and $\frac{\partial f}{\partial y}(x_0,y_0)$ yield relatively large values.
 \subsubsection{Implementation}
 Below the implementation of the Harris corner detection algorithm in C-like pseudocode.
 \begin{lstlisting}
@@ -92,8 +94,43 @@ intensity_image harris(original_image, patch_indices) {
 }
 
 \end{lstlisting}
-This routine returns non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
+This routine returns a non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
+
+\newpage
+\begin{lstlisting}
+
+pixel_array compute_coordinates(intensity_image, threshold) {
+
+	// First, we optionally use a monte-carlo pruning algorithm
+	// to reduce the number of corner coordinated produced by this
+	// function.
+	prune(intensity_image);
+
+	// Next, the intensity image is converted to a binary image.
+	b_img = threshold_to_binary(intensity_image, threshold);
+	
+	// Finally, any pixel with a value of 1 in the binary image
+	// is considered a corner point coordinate.
+	for (px : b_img) {
+		p_arr += px;
+	}
+	
+	return p_arr;
+}
+
+\end{lstlisting}
+
+\newpage
 \subsection{Patch Matching}
+\subsubsection{Synopsis}
+After the corner point coordinates of each image has been computed, the bounding boxes for each image and corresponding corner points are passed to a patch matching routine.  This patch matching routine computes correspondences between corner points and between bounding boxes (explained in more detail below).  The in the system pictured below, assuming the image in bounding boxes 1 and 3 are similar and the images in bounding boxes 2 and 4 are similar, the output for this phase would be:
+\\~\\
+$(1 \iff 3, \text{assignment cost})$
+\\
+$(2 \iff 4, \text{assignment cost})$
+\\~\\
+\includegraphics[width=\textwidth]{after_corner}
+
 \subsection{RANSAC}
 
 \end{document}
