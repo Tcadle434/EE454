@@ -293,6 +293,13 @@ To test our implementation of the Harris Corner Detection algorithm, we used var
 \fbox{\includegraphics[width=150pt, height=150pt]{harrisinput}}
 \fbox{\includegraphics[width=150pt, height=150pt]{harrisoutput}}
 \end{center}
+~\\
+This window image is very idealistic; the corners in this image are distinctive and well-defined.  We have found that this corner detection algorithm also works well on less-ideal input.  Here is the result when the algorithm is run on the first bounding box in the image 7022:
+\begin{center}
+\fbox{\includegraphics[scale=.4]{woman}}
+\fbox{\includegraphics[scale=.4]{womanharris}}
+\end{center}
+The algorithm does a good job of suppressing the uniform regions of the image (the woman's jacket, shirt, and pants) and highlights regions of high contrast (the woman's hand against her jacket, hair against her head).
 
 \newpage
 \begin{appendices}
