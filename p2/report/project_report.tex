@@ -96,7 +96,7 @@ intensity_image harris(original_image, patch_indices) {
 \end{lstlisting}
 This routine returns a non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
 
-\newpage
+\begin{minipage}{\textwidth}
 \begin{lstlisting}
 
 pixel_array compute_coordinates(intensity_image, threshold) {
@@ -119,19 +119,51 @@ pixel_array compute_coordinates(intensity_image, threshold) {
 }
 
 \end{lstlisting}
+\end{minipage}
 
 \newpage
 \subsection{Patch Matching}
 \subsubsection{Synopsis}
-After the corner point coordinates of each image has been computed, the bounding boxes for each image and corresponding corner points are passed to a patch matching routine.  This patch matching routine computes correspondences between corner points and between bounding boxes (explained in more detail below).  The in the system pictured below, assuming the image in bounding boxes 1 and 3 are similar and the images in bounding boxes 2 and 4 are similar, the output for this phase would be:
-\\~\\
-$(1 \iff 3, \text{assignment cost})$
-\\
-$(2 \iff 4, \text{assignment cost})$
-\\~\\
+After the corner point coordinates of each image has been computed, the bounding boxes for each image and corresponding corner points are passed to a patch matching routine.  This patch matching routine computes correspondences between corner points and between bounding boxes (explained in more detail below).  The in the system pictured below, assuming the image in bounding boxes 1 and 3 are similar and the images in bounding boxes 2 and 4 are similar, the correspondence set output for this phase would be:
+\[
+\left \{
+\begin{tabular}{c}
+$(1 \iff 3,\quad \text{assignment cost})$ \\
+$(2 \iff 4,\quad \text{assignment cost})$
+\end{tabular}
+\right \}
+\]
 \includegraphics[width=\textwidth]{after_corner}
 \subsubsection{Implementation}
+To find an optimal bounding box correspondence set between two images, we first must compute cost values for matching two boxes.  Here is the implemented cost function:
+\\
+\begin{minipage}{\textwidth}
+\begin{lstlisting}
 
+assignment_set compute_cost(bounding_box a,b) {
+
+	// Compute the costs of corresponding each corner
+	// point in bounding box a against every corner
+	// point in bounding box b.
+	for (corner c_a : a) {
+	for (corner c_b : b) {
+		// Get the image patches around each corner point.
+		patch_a = get_patch(c_a);
+		patch_b = get_patch(c_b);
+			
+		// Use SSD as cost function.
+		cost_matrix[i, j] =
+			sum_squared_difference(patch_a, patch_b);
+	} }
+	
+	// Use the provided optimal assingment algorithm to get
+	// a point correspondence set and the costs assiociated
+	// with each assignment.
+	return assignmentoptimal(cost_matrix);
+}
+
+\end{lstlisting}
+\end{minipage}
 \subsection{RANSAC}
 
 \end{document}
