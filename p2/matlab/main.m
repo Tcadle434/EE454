@@ -24,17 +24,26 @@ parseGroundTruthSupressed;
 
 
 %match corners and match boxes
-[cornerMatches, windowMatches] = matcher (corners, sFrameArr, numOfFrames,...
+[cornerMatches, windowMatches,affineWindowMatchMatrices] = ...
+    matcher (corners, sFrameArr, numOfFrames,...
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
 
 %open up drawdemo.m to learn about what it is and how to configure it
 drawdemo;
 
-%Compute Accuracy
+%Compute Accuracy Measurements
 accuracy = Acurrator(windowMatches,gtboxarray,sFrameArr);
 disp( sprintf( ...
     'Windows were correctly matched between sequential images %2.2f%% of the time.',...
     (accuracy)*100 ) );
+numberOfAffineWindowMatchMaricesToShow = 1;
+for i = 1:numOfFrames-1
+    if ( i > numberOfAffineWindowMatchMaricesToShow )
+       break; 
+    end
+    figure;
+    surf(affineWindowMatchMatrices{i});
+end
 
 %Ransac to get translations between matched windows
 translations={};
@@ -51,4 +60,6 @@ for i=1:size(cornerMatches,2)
     ransacDisplay(cornerMatches,windowMatches,i,sFrameArr,...
         gtboxarray,corners,translations);
 end
+
+
     
