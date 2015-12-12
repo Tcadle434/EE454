@@ -57,9 +57,12 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \section{Project Summary}
-The purpose of this project was to perform object tracking in a time-series image set using many of the different image processing learned in class.
+The purpose of this project was to perform object tracking in a time-series image set using many of the different image processing techniques learned in class.  Given an image taken at time $t_i$ and a bounding box around an object in the image, we estimate which bounding box in image $t_{i + 1}$ contains the same object.  Once a correspondence is drawn between an object in these images, a motion estimate (translation) is calculated for that object.
 
-\section{Integral Algorithms}
+An object contained with a bounding box is characterized by its corner points; these corner points are obtained by running the Harris Corner Detection algorithm.  To find correspondence sets between corner points and bounding boxes, the Munkres assignment algorithm is used.  Finally, RANSAC is used to obtain an inlier-set of correspondences which are used in translation estimation.  A description of these algorithms is found in Section \ref{algo}.
+
+\newpage
+\section{Integral Algorithms}\label{algo}
 \subsection{Harris Corner Detection}
 \subsubsection{Synopsis}
 Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image located at coordinates $(x_0,y_0)$ such that $\frac{\partial I}{\partial x}(x_0,y_0)$ and $\frac{\partial I}{\partial y}(x_0,y_0)$ yield relatively large values.
