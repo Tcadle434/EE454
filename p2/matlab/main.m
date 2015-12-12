@@ -7,7 +7,7 @@ parseGroundTruthSupressed;
 
 numOfFrames = 10; %set number frames 
 frameSkipRate = 1; %distance between next frame chosen, greater the distance more of a change of windows
-frameindex = 7022;  %starting frame; range is 7024-7200s
+frameindex = 7170;  %starting frame; range is 7024-7200s
 filepath = '../frames/DaMultiview-seq';
 threshold = 235;
 alpha = 0.15;

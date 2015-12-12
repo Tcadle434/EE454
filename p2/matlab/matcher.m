@@ -10,6 +10,8 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
         frame2 = frame+1;
         frame1boxstart = sFrameArr(frame1);
         frame2boxstart = sFrameArr(frame2);
+        frame1boxstartcorners = frame1boxstart - sFrameArr(frame1) + 1;
+        frame2boxstartcorners = frame2boxstart - sFrameArr(frame2) + 1;
         %number of boxes
         i1boxes = frame2boxstart - frame1boxstart;
         if frame ~= numOfFrames-1
@@ -41,8 +43,8 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
                 w1 = gtboxarray(frame1boxstart+b1-1,:);
                 w2 = gtboxarray(frame2boxstart+b2-1,:);
                 %number of corners
-                dim1 = size(corners{frame1boxstart+b1-1});
-                dim2 = size(corners{frame2boxstart+b2-1});
+                dim1 = size(corners{frame1boxstartcorners+b1-1});
+                dim2 = size(corners{frame2boxstartcorners+b2-1});
                 i1corners = dim1(2);
                 i2corners = dim2(2);
        
@@ -83,8 +85,8 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
                 for c1 = 1:i1corners
                    for c2 = 1:i2corners
                         ssd = SumOfSqaureDifferences(...
-                            i1,i2,corners{frame1boxstart+b1-1}(:,c1),...
-                            corners{frame2boxstart+b2-1}(:,c2),cornerpatchx,...
+                            i1,i2,corners{frame1boxstartcorners+b1-1}(:,c1),...
+                            corners{frame2boxstartcorners+b2-1}(:,c2),cornerpatchx,...
                             cornerpatchy,w1,w2);
                         cornermatchmatrix(c1,c2) = ssd;
                    end
