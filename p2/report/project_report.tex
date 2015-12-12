@@ -302,7 +302,12 @@ This window image is very idealistic; the corners in this image are distinctive 
 The algorithm does a good job of suppressing the uniform regions of the image (the woman's jacket, shirt, and pants) and highlights regions of high contrast (the woman's hand against her jacket, hair against her head).
 
 \subsection{Matching}
-
+Object matching between bounding boxes works consistently with 75\% to 95\% accuracy -- see the next section for performance metrics and accuracy measurements.  Pictured below is a bounding box correspondence computed by \texttt{matcher.m} in the \hyperref[source]{Source Code Listing} section.  With input images 7170 and 7171, the matching routine correctly corresponded box six to box six using the Harris corner points indicated by the red star points in the image.
+\begin{center}
+\fbox{\includegraphics[width=\textwidth]{"matchresults-with-corners(7170 to 7171, box id 6 match)"}}
+\end{center}
+~\\
+Using simple two-image test cases allowed us to further tune various parameters in our modules to improve overall matching accuracy.  We found that the image patch size used in the SSD scoring portion of the matching process made a significant difference in accuracy: if the patch size was too small or too large, accuracy significantly dropped.  A patch size of 12 pixels by 12 pixels seemed to yield the best results.
 
 \newpage
 \begin{appendices}
