@@ -2,7 +2,7 @@ function [] = ransacDisplay(sFrameArr,gtboxarray,translations)
     drawArrow = @(x,y) quiver( x(1),y(1),x(2)-x(1),y(2)-y(1),0 );
     figure(1); clf; set(gcf,'DoubleBuffer','On');
     j=1;
-    for fnum=7022:7023
+    for fnum=7022:7030
         fname = sprintf('../frames/DaMultiview-seq%04d.png',fnum);
         im = imread(fname);
         imagesc(im); axis equal
