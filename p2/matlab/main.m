@@ -1,6 +1,8 @@
 %Parameters
 numOfFrames = 10; %set number frames 
-frameSkipRate = 1; %frame comparison distance
+frameSkipRate = 1; %DON"T CHANGE THIS! THE PROGRAM ONLY FUNCTIONS 
+                    %IF IT IS SET TO 1
+                    %frame comparison distance
 frameindex = 7170;  %starting frame; range is 7022-7200
 filepath = '../frames/DaMultiview-seq';
 threshold = 235; %R threshold for harris corners
@@ -25,8 +27,8 @@ parseGroundTruthSupressed;
 [cornerMatches, windowMatches] = matcher (corners, sFrameArr, numOfFrames,...
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
 
-
-
+%open up drawdemo.m to learn about what it is and how to configure it
+drawdemo;
 
 %Compute Accuracy
 accuracy = Acurrator(windowMatches,gtboxarray,sFrameArr);

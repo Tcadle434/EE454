@@ -1,5 +1,20 @@
-%for each image pair
+%display the corners and bounding box matches between images
+%so for each image the neighboring images are compared (i.e 1 is compared
+%with 2, 2 is compared with 3, and so on)
+%This code segment will display the neighboring pictures in a figure. The
+%picture on the left will be the first neighboring image and the
+%picture on the right will be the second neighboring image. They pictures
+%will show that bounding boxes that our code matched (they aren't always
+%right). It also shows the corners it used to match the boxes in red.
+%below are some parameters you can use to configure what is printed out.
+%number of image pair you want to print out
+imagesToPrint = 1; %number of image pair examples you'd like to display
+boxesPerImagePair = 2; %number of bounding boxes and corner examples
+                       %to display per image pair demo
 for i=1:numOfFrames-1
+   if ( i > imagesToPrint )
+       break;
+   end
    dims1 = size(windowMatches{i});
    filename = strcat(filepath, num2str(frameindex+i-1));
    filename = strcat(filename, '.png');
@@ -10,6 +25,9 @@ for i=1:numOfFrames-1
    dimi1 = size(i1);
    
    for j=1:dims1(1)
+        if (j > boxesPerImagePair)
+           break;
+        end
         figure;
         imagesc([i1 i2]);
         
