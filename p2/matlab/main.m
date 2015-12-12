@@ -24,7 +24,7 @@ parseGroundTruthSupressed;
 
 
 %match corners and match boxes
-[cornerMatches, windowMatches,affineWindowMatchMatrices] = ...
+[cornerMatches, windowMatches,affinityWindowMatchMatrices] = ...
     matcher (corners, sFrameArr, numOfFrames,...
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
 
@@ -36,13 +36,13 @@ accuracy = Acurrator(windowMatches,gtboxarray,sFrameArr);
 disp( sprintf( ...
     'Windows were correctly matched between sequential images %2.2f%% of the time.',...
     (accuracy)*100 ) );
-numberOfAffineWindowMatchMaricesToShow = 1;
+numberOfAffinityWindowMatchMaricesToShow = 1;
 for i = 1:numOfFrames-1
-    if ( i > numberOfAffineWindowMatchMaricesToShow )
+    if ( i > numberOfAffinityWindowMatchMaricesToShow )
        break; 
     end
     figure;
-    surf(affineWindowMatchMatrices{i});
+    surf(affinityWindowMatchMatrices{i});
 end
 
 %Ransac to get translations between matched windows

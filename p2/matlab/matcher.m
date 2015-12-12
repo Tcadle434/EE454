@@ -1,4 +1,4 @@
-function [ cornerMatches, windowMatches, affineWindowMatchMatrices ]...
+function [ cornerMatches, windowMatches, affinityWindowMatchMatrices ]...
     = matcher( corners, sFrameArr, numOfFrames, ...
     gtboxarray, filepath, frameindex, cornerpatchx, cornerpatchy)
 
@@ -100,7 +100,7 @@ function [ cornerMatches, windowMatches, affineWindowMatchMatrices ]...
         end
         cornerMatches(frame) = {cornerMatchesByWindow};
         
-        affineWindowMatchMatrices(frame) = {boxmatchmatrix};
+        affinityWindowMatchMatrices(frame) = {boxmatchmatrix};
         
         [aboxes,cboxes] = assignmentoptimal(boxmatchmatrix);
         
