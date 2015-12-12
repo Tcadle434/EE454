@@ -38,9 +38,8 @@ disp( sprintf( ...
 translations={};
 translationsByWindow = {};
 groundTruthTranslations;
+disp(sprintf('Running RANSAC on all windows in all images.'));
 for i=1:size(cornerMatches,2)
-    disp(sprintf('running RANSAC on image pair: %d (frame %d to %d)'...
-        ,i,gtboxarray(sFrameArr(i),1)-1,gtboxarray(sFrameArr(i),1)));
     for j=1:size(windowMatches{i},1)
         [data1,data2] = ransacWrapper(cornerMatches,windowMatches,i,j,...
             sFrameArr,gtboxarray,corners);
