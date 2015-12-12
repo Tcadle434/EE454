@@ -2,7 +2,8 @@ function [data1,data2] = ransacWrapper(cornerMatches,windowMatches,...
     imagePair,windowPair,sFrameArr,gtBoxArray,corners)
     % input: image pair number and window pair number
     % output: (x,y) coordinates for point correspondences of this window pair
-    
+    data1=[];
+    data2=[];
     % get the window in img1 and its corresponding window in img2
     w1 = windowPair;
     w2 = windowMatches{imagePair}(windowPair);

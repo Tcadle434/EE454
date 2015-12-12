@@ -1,5 +1,5 @@
 %Parameters
-numOfFrames = 20; %set number frames 
+numOfFrames = 30; %set number frames 
 frameSkipRate = 1; %frame comparison distance
 frameindex = 7022;  %starting frame; range is 7022-7200
 filepath = '../frames/DaMultiview-seq';
