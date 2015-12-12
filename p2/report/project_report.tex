@@ -21,7 +21,8 @@
 	showtabs=false,
 	numbers=left,
 	showstringspaces=false,
-	frame=single
+	frame=single,
+	tabsize=3
 }
 \makeatother
 
@@ -143,13 +144,13 @@ To find an optimal bounding box correspondence set between two images, we first 
 \begin{minipage}{\textwidth}
 \begin{lstlisting}
 
-assignment_set compute_bb_set(bounding_box a,b) {
+assignment_set compute_bb_set(bounding_box_a, bounding_box_b) {
 
 	// Compute the costs of corresponding each corner
 	// point in bounding box a against every corner
 	// point in bounding box b.
-	for (corner_a : a) {
-	for (corner_b : b) {
+	for (corner_a : bounding_box_a) {
+	for (corner_b : bounding_box_b) {
 		// Get the image patches around each corner point.
 		patch_a = get_patch(corner_a);
 		patch_b = get_patch(corner_b);
@@ -190,12 +191,12 @@ A similar method is used to find an optimal bounding box correspondence between 
 \begin{minipage}{\textwidth}
 \begin{lstlisting}
 
-assignment_set compute_img_set(image a,b) {
+assignment_set compute_img_set(image_a, image_b) {
 
 	// Compute the costs of corresponding each bounding box
 	// in image a against every bounding box in image b.
-	for (bounding_box_a : a) {
-	for (bounding_box_b : b) {
+	for (bounding_box_a : image_a) {
+	for (bounding_box_b : image_b) {
 		
 		bb_set =
 		compute_bb_set(bounding_box_a, bounding_box_b);
@@ -216,6 +217,56 @@ assignment_set compute_img_set(image a,b) {
 
 \end{lstlisting}
 \end{minipage}
+\newpage
 \subsection{RANSAC}
+\subsubsection{Synopsis}
+Once the optimal bounding box correspondences have been determined, random sample consensus (RANSAC) can be used to estimate the translation of a bounding box between two images.  RANSAC is a probabilistic, consensus-based algorithm which can be used to efficiently remove outliers from a set - in this problem space, outliers are ``bad'' corner points correspondences determined by the \texttt{compute\_bb\_set} function.
+\subsubsection{Implementation}
+\begin{minipage}{\textwidth}
+\begin{lstlisting}
+
+estimated_translation ransac(bounding_box_i, bounding_box_j,
+	num_iterations, threshold) {
+
+// Perform the inner-routine num\_iteartion times.
+for (i = 1 to num_iterations) {
+	// Get a random pair of corresponding corners
+	// from the bounding boxes.
+	corner_i = get_random_corner(bounding_box_i);
+	corner_j =
+	get_corresponding_corner(bounding_box_j, corner_i);
+	
+	// Get the component-wise translation between these
+	// corresponding points.
+	translation = compute_translation(corner_i, corner_j);
+	
+	inlier_count = 0;
+	max_inlier_count = 0, best_translation = 0;
+	
+	for (corner : bounding_box_i) {
+		// Estimate where all the other corners should be based
+		// on the translation computed above.
+		estimated_corner = corner + translation;
+		
+		// Get the actual correspondence point
+		actual_corner =
+			get_corresponding_corner(bounding_box_j, corner);
+		
+		// If the estimated point is close to the actual point,
+		// consider the point an inlier.
+		distance = l2norm(actual_corner, estimated_corner);
+		if (distance < threshold) inlier_count++;
+	}
+	
+	// Keep track of the best translation estimate.
+	if (inlier_count > max_inlier_count) {
+		max_inlier_count = inlier_count;
+		best_translation = translation;
+	}
+		
+} return best_translation; }
+
+\end{lstlisting}
+\end{minipage}
 
 \end{document}
