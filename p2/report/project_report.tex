@@ -164,6 +164,25 @@ assignment_set compute_cost(bounding_box a,b) {
 
 \end{lstlisting}
 \end{minipage}
+\\~\\
+For the bounding boxes pictured below, here is an example assignment set:
+\[
+\left \{
+\begin{tabular}{c}
+$(G \iff J,\quad \text{SSD}_{GJ})$ \\
+$(F \iff K,\quad \text{SSD}_{FK})$ \\
+$(I \iff M,\quad \text{SSD}_{IM})$ \\
+$(E \iff \emptyset,\quad \infty)$ \\
+$(H \iff \emptyset,\quad \infty)$
+\end{tabular}
+\right \}
+\]
+\begin{center}
+\fbox{\includegraphics[width=0.65\textwidth]{box_corners}}
+\end{center}
+~\\
+The overall cost of assigning Bounding Box 1 to Bounding Box 2 is then the sum of the finite costs in the optimal assignment set; i.e. $\text{SSD}_{GJ} + \text{SSD}_{FK} + \text{SSD}_{IM}$.
+
 \subsection{RANSAC}
 
 \end{document}
