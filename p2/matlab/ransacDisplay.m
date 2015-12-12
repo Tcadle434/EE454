@@ -1,6 +1,5 @@
 function [] = ransacDisplay(cornerMatches,windowMatches,imagePair,...
     sFrameArr,gtboxarray,corners,translations)
-    figure(1); clf; set(gcf,'DoubleBuffer','On');
     fnum = gtboxarray(sFrameArr(imagePair+1),1);
     fname = sprintf('../frames/DaMultiview-seq%04d.png',fnum);
     inds = find(gtboxarray(:,1)==fnum);

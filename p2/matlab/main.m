@@ -46,6 +46,8 @@ for i = 1:numOfFrames-1
 end
 
 %Ransac to get translations between matched windows
+h = figure;
+set(h,'name','RANSAC','numbertitle','off');
 translations={};
 translationsByWindow = {};
 groundTruthTranslations;
