@@ -58,7 +58,7 @@
 \section{Integral Algorithms}
 \subsection{Harris Corner Detection}
 \subsubsection{Synopsis}
-Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image located at coordinates $(x_0,y_0)$ such that $\frac{\partial f}{\partial x}(x_0,y_0)$ and $\frac{\partial f}{\partial y}(x_0,y_0)$ yield relatively large values.
+Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image located at coordinates $(x_0,y_0)$ such that $\frac{\partial I}{\partial x}(x_0,y_0)$ and $\frac{\partial I}{\partial y}(x_0,y_0)$ yield relatively large values.
 \subsubsection{Implementation}
 Below the implementation of the Harris corner detection algorithm in C-like pseudocode.
 \begin{lstlisting}
@@ -111,11 +111,14 @@ pixel_array compute_coordinates(intensity_image, threshold) {
 	
 	// Finally, any pixel with a value of 1 in the binary image
 	// is considered a corner point coordinate.
+	// 
+	// The notation for(x:y) is used to mean "for each element x
+	// in the set y."
 	for (px : b_img) {
-		p_arr += px;
+		p_array.add(px);
 	}
 	
-	return p_arr;
+	return p_array;
 }
 
 \end{lstlisting}
@@ -140,19 +143,19 @@ To find an optimal bounding box correspondence set between two images, we first 
 \begin{minipage}{\textwidth}
 \begin{lstlisting}
 
-assignment_set compute_cost(bounding_box a,b) {
+assignment_set compute_bb_set(bounding_box a,b) {
 
 	// Compute the costs of corresponding each corner
 	// point in bounding box a against every corner
 	// point in bounding box b.
-	for (corner c_a : a) {
-	for (corner c_b : b) {
+	for (corner_a : a) {
+	for (corner_b : b) {
 		// Get the image patches around each corner point.
-		patch_a = get_patch(c_a);
-		patch_b = get_patch(c_b);
+		patch_a = get_patch(corner_a);
+		patch_b = get_patch(corner_b);
 			
 		// Use SSD as cost function.
-		cost_matrix[i, j] =
+		cost_matrix[corner_a, corner_b] =
 			sum_squared_difference(patch_a, patch_b);
 	} }
 	
@@ -177,12 +180,42 @@ $(H \iff \emptyset,\quad \infty)$
 \end{tabular}
 \right \}
 \]
+The overall cost of assigning Bounding Box 1 to Bounding Box 2 is then the sum of the finite costs in the optimal assignment set; i.e. $\text{SSD}_{GJ} + \text{SSD}_{FK} + \text{SSD}_{IM}$.
 \begin{center}
 \fbox{\includegraphics[width=0.65\textwidth]{box_corners}}
 \end{center}
 ~\\
-The overall cost of assigning Bounding Box 1 to Bounding Box 2 is then the sum of the finite costs in the optimal assignment set; i.e. $\text{SSD}_{GJ} + \text{SSD}_{FK} + \text{SSD}_{IM}$.
+A similar method is used to find an optimal bounding box correspondence between two images:
+\\
+\begin{minipage}{\textwidth}
+\begin{lstlisting}
 
+assignment_set compute_img_set(image a,b) {
+
+	// Compute the costs of corresponding each bounding box
+	// in image a against every bounding box in image b.
+	for (bounding_box_a : a) {
+	for (bounding_box_b : b) {
+		
+		bb_set =
+		compute_bb_set(bounding_box_a, bounding_box_b);
+		
+		// Sum the costs for the valid assignments
+		total_cost = 0;
+		for (assignment : bb_set) 
+			if (assignment.cost < inf)
+				total_cost += assignment.cost;
+		
+		cost_matrix[bounding_box_a, bounding_box_b] =
+			total_cost;
+		
+	} }
+	
+	return assignmentoptimal(cost_matrix);
+}
+
+\end{lstlisting}
+\end{minipage}
 \subsection{RANSAC}
 
 \end{document}
