@@ -37,6 +37,8 @@ disp( sprintf( ...
     (accuracy)*100 ) );
 
 %Ransac to get translations between matched windows
+h = figure;
+set(h,'name','RANSAC','numbertitle','off');
 translations={};
 translationsByWindow = {};
 groundTruthTranslations;
