@@ -56,12 +56,17 @@
 \newpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
+\section{Project Summary}
+The purpose of this project was to perform object tracking in a time-series image set using many of the different image processing learned in class.
+
 \section{Integral Algorithms}
 \subsection{Harris Corner Detection}
 \subsubsection{Synopsis}
 Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image located at coordinates $(x_0,y_0)$ such that $\frac{\partial I}{\partial x}(x_0,y_0)$ and $\frac{\partial I}{\partial y}(x_0,y_0)$ yield relatively large values.
 \subsubsection{Implementation}
 Below the implementation of the Harris corner detection algorithm in C-like pseudocode.
+\\~\\
+\begin{minipage}{\textwidth}
 \begin{lstlisting}
 
 intensity_image harris(original_image, patch_indices) {
@@ -95,8 +100,10 @@ intensity_image harris(original_image, patch_indices) {
 }
 
 \end{lstlisting}
-This routine returns a non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
+\end{minipage}
 
+This routine returns a non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
+\\~\\
 \begin{minipage}{\textwidth}
 \begin{lstlisting}
 
