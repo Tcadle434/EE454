@@ -4,8 +4,11 @@
 \usepackage{fancyhdr}
 \usepackage{draftwatermark}
 \usepackage {sectsty}
+\usepackage[T1]{fontenc}
 \usepackage{hyperref}
+\usepackage{underscore}
 \usepackage{graphicx}
+\usepackage[toc]{appendix}
 \graphicspath{ {img/} }
 \usepackage [dvipsnames]{xcolor}
 
@@ -13,6 +16,7 @@
 	language=C,
 	basicstyle=\ttfamily\footnotesize,
 	keywordstyle=\ttfamily\color{blue}\footnotesize,
+	stringstyle=\ttfamily\color{purple},
 	commentstyle=\color{OliveGreen}\ttfamily\footnotesize,
 	texcl,
 	escapechar =`
@@ -22,7 +26,9 @@
 	numbers=left,
 	showstringspaces=false,
 	frame=single,
-	tabsize=3
+	tabsize=3,
+	breaklines=true,
+	breakautoindent=true,
 }
 \makeatother
 
@@ -56,12 +62,20 @@
 \newpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
-\section{Integral Algorithms}
+\section{Project Summary}
+The purpose of this project was to perform object tracking in a time-series image set using many of the different image processing techniques learned in class.  Given an image taken at time $t_i$ and a bounding box around an object in the image, we estimate which bounding box in image $t_{i + 1}$ contains the same object.  Once a correspondence is drawn between an object in these images, a motion estimate (translation) is calculated for that object.
+
+An object contained with a bounding box is characterized by its corner points; these corner points are obtained by running the Harris Corner Detection algorithm.  To find correspondence sets between corner points and bounding boxes, the Munkres assignment algorithm is used.  Finally, RANSAC is used to obtain an inlier-set of correspondences which are used in translation estimation.  A description of these algorithms and pseudocode implementation is found in Section \ref{algo}.  The actual Matlab implementation of these functions is found in Appendix \ref{source}.
+
+\newpage
+\section{Integral Algorithms}\label{algo}
 \subsection{Harris Corner Detection}
 \subsubsection{Synopsis}
 Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image located at coordinates $(x_0,y_0)$ such that $\frac{\partial I}{\partial x}(x_0,y_0)$ and $\frac{\partial I}{\partial y}(x_0,y_0)$ yield relatively large values.
 \subsubsection{Implementation}
 Below the implementation of the Harris corner detection algorithm in C-like pseudocode.
+\\~\\
+\begin{minipage}{\textwidth}
 \begin{lstlisting}
 
 intensity_image harris(original_image, patch_indices) {
@@ -95,8 +109,10 @@ intensity_image harris(original_image, patch_indices) {
 }
 
 \end{lstlisting}
-This routine returns a non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
+\end{minipage}
 
+This routine returns a non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
+\\~\\
 \begin{minipage}{\textwidth}
 \begin{lstlisting}
 
@@ -137,7 +153,7 @@ $(2 \iff 4,\quad \text{assignment cost})$
 \end{tabular}
 \right \}
 \]
-\includegraphics[width=\textwidth]{after_corner}
+\includegraphics[width=\textwidth]{aftercorner}
 \subsubsection{Implementation}
 To find an optimal bounding box correspondence set between two images, we first must compute cost values for matching two boxes.  Here is the implemented cost function:
 \\
@@ -183,7 +199,7 @@ $(H \iff \emptyset,\quad \infty)$
 \]
 The overall cost of assigning Bounding Box 1 to Bounding Box 2 is then the sum of the finite costs in the optimal assignment set; i.e. $\text{SSD}_{GJ} + \text{SSD}_{FK} + \text{SSD}_{IM}$.
 \begin{center}
-\fbox{\includegraphics[width=0.65\textwidth]{box_corners}}
+\fbox{\includegraphics[width=0.65\textwidth]{boxcorners}}
 \end{center}
 ~\\
 A similar method is used to find an optimal bounding box correspondence between two images:
@@ -268,5 +284,27 @@ for (i = 1 to num_iterations) {
 
 \end{lstlisting}
 \end{minipage}
+
+\section{Intermediate Results}
+In this section we include results from the various modules implemented in this program.  These results were used to verify correctness of each particular unit of code, as well as tune the entire program to produce accurate results.
+\subsection{Harris Corner Detection}
+To test our implementation of the Harris Corner Detection algorithm, we used various images containing geometric scenes.  For example, below is a skyscraper facade passed through our routine.  As expected, the corner points on each window have very high intensity values and the edges in the image have very low intensity values.
+\begin{center}
+\fbox{\includegraphics[width=150pt, height=150pt]{harrisinput}}
+\fbox{\includegraphics[width=150pt, height=150pt]{harrisoutput}}
+\end{center}
+
+\newpage
+\begin{appendices}
+\section{Source Code Listings}\label{source}
+% \lstinputlisting[escapechar=,language=Matlab,caption=blob2px.m,breaklines=true]{../matlab/blob2px.m}
+\lstinputlisting[escapechar=,language=Matlab,caption=harris.m]{../matlab/harris.m}
+\lstinputlisting[escapechar=,language=Matlab,caption=main.m, lastline=29]{../matlab/main.m}
+\lstinputlisting[escapechar=,language=Matlab,caption=matcher.m, lastline=77]{../matlab/matcher.m}
+\lstinputlisting[escapechar=,language=Matlab,caption=phase1.m]{../matlab/phase1.m}
+\lstinputlisting[escapechar=,language=Matlab,caption=pruneMatrixScaled.m]{../matlab/pruneMatrixScaled.m}
+\lstinputlisting[escapechar=,language=Matlab,caption=ransac.m]{../matlab/ransac.m}
+\lstinputlisting[escapechar=,language=Matlab,caption=SumOfSqaureDifferences.m]{../matlab/SumOfSqaureDifferences.m}
+\end{appendices}
 
 \end{document}
