@@ -31,6 +31,9 @@ for i=1:numOfFrames-1
 
         for k = 1 : numel(cs) / 2
             plot(cs(2,k), cs(1,k), 'r*');
+           
+        end
+        for k = 1 : numel(cs2) / 2
             plot(cs2(2,k), cs2(1,k), 'r*');
         end
         plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
