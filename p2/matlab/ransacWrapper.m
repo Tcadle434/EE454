@@ -40,6 +40,8 @@ function [data1,data2] = ransacWrapper(cornerMatches,windowMatches,...
                 data2(1,j) = y2;
 				
 				j = j+1;
+            else
+                numPointMatches = numPointMatches - 1;
             end
         end
     end

@@ -1,7 +1,7 @@
 %Parameters
-numOfFrames = 10; %set number frames 
+numOfFrames = 20; %set number frames 
 frameSkipRate = 1; %frame comparison distance
-frameindex = 7170;  %starting frame; range is 7022-7200
+frameindex = 7022;  %starting frame; range is 7022-7200
 filepath = '../frames/DaMultiview-seq';
 threshold = 235; %R threshold for harris corners
 alpha = 255; %controls how you want to choose corners at random
