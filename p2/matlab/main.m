@@ -28,6 +28,8 @@ parseGroundTruthSupressed;
     matcher (corners, sFrameArr, numOfFrames,...
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
 
+%here are some results of the matching
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %open up drawdemo.m to learn about what it is and how to configure it
 drawdemo;
 
@@ -36,6 +38,7 @@ accuracy = Acurrator(windowMatches,gtboxarray,sFrameArr);
 disp( sprintf( ...
     'Windows were correctly matched between sequential images %2.2f%% of the time.',...
     (accuracy)*100 ) );
+%affinity matrices
 numberOfAffinityWindowMatchMaricesToShow = 1;
 for i = 1:numOfFrames-1
     if ( i > numberOfAffinityWindowMatchMaricesToShow )
