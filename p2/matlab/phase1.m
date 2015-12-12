@@ -12,7 +12,7 @@ function [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate,...
             filename = strcat(filename, '.png');
             %disp(filename);
             filenameArr{end+1} = filename;
-            disp(filenameArr(n));
+            %disp(filenameArr(n));
 
             %search for desired frames
             r = 1;
@@ -21,7 +21,7 @@ function [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate,...
                 r = r + 1;
             end
             sFrameArr = [sFrameArr r];  %starting index of data for image in gtboxarray
-            disp(['starting row in gtboxarray for above frame: ', num2str(sFrameArr(n))]);
+            %disp(['starting row in gtboxarray for above frame: ', num2str(sFrameArr(n))]);
 
             frameindex = frameindex + frameSkipRate;
         end
@@ -31,7 +31,7 @@ function [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate,...
     %below code identifies which windows are shared between all selected frames
     %if there is a common window then it runs harris on this window from each
     %frame
-    message2 = 'running harris corners of matching windows of all frames:';
+    message2 = 'running harris corners of matching windows of all frames';
     disp(message2);
     %disp(tempFrameNum);
     for n = 1:length(filenameArr)

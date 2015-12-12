@@ -24,6 +24,11 @@ function [ ssd ] = SumOfSqaureDifferences( i1,i2,p1,p2,x,y,w1,w2 )
     p2x = p2(2);
     p2y = p2(1);
     
+    p1x = max(p1x,1);
+    p1y = max(p1y,1);
+    p2x = max(p2x,1);
+    p2y = max(p2y,1);
+    
     ip1x = w1xmin+p1x;
     ip1y = w1ymin+p1y;
     ip2x = w2xmin+p2x;
