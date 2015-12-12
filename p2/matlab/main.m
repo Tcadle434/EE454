@@ -33,6 +33,7 @@ hold off;
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
 
 
+
 count = 0;
 count2 = 0;
 for i=1:9
@@ -48,3 +49,18 @@ end
 display(count);
 display(count2);
 display(double(count)/double(count2));
+
+translations={};
+translationsByWindow = {};
+groundTruthTranslations;
+for i=1:size(cornerMatches,2)
+    disp(['running ransac on image: ',num2str(i)]);
+    for j=1:size(windowMatches{i},1)
+        [data1,data2] = ransacWrapper(cornerMatches,windowMatches,i,j,...
+            sFrameArr,gtboxarray,corners);
+        [translations,translationsByWindow] = ransac(data1,data2,10000,1,...
+            0.1,i,j,translations,translationsByWindow);
+    end
+end
+    
+
