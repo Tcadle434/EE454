@@ -47,6 +47,7 @@ for i = 1:numOfFrames-1
     figure;
     surf(affinityWindowMatchMatrices{i});
 end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Ransac to get translations between matched windows
 h = figure;
