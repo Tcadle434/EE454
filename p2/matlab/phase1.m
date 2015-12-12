@@ -31,7 +31,7 @@ function [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate,...
     %below code identifies which windows are shared between all selected frames
     %if there is a common window then it runs harris on this window from each
     %frame
-    message2 = 'running harris corners of matching windows of all frames:';
+    message2 = 'running harris corners of matching windows of all frames';
     disp(message2);
     %disp(tempFrameNum);
     for n = 1:length(filenameArr)

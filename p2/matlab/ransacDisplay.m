@@ -3,10 +3,11 @@ function [] = ransacDisplay(cornerMatches,windowMatches,imagePair,...
     figure(1); clf; set(gcf,'DoubleBuffer','On');
     fnum = gtboxarray(sFrameArr(imagePair+1),1);
     fname = sprintf('../frames/DaMultiview-seq%04d.png',fnum);
+    inds = find(gtboxarray(:,1)==fnum);
     im = imread(fname);
     imagesc(im); axis equal
     hold on
-    for i = 1:size(windowMatches{imagePair}(1))
+    for i = 1:size(windowMatches{imagePair})
         [data1,data2] = ransacWrapper(cornerMatches,windowMatches,...
             imagePair,i,sFrameArr,gtboxarray,corners);
         bb = gtboxarray(inds(i),:);
@@ -16,14 +17,13 @@ function [] = ransacDisplay(cornerMatches,windowMatches,imagePair,...
         for j = 1:numDataPoints
             x_real = data2(2,j);
             y_real = data2(1,j);
-            x_pred = data1(2,j)+translations{imagePair}{j}(2);
-            y_pred = data1(1,j)+translations{imagePair}{j}(1);
+            x_pred = data1(2,j)+translations{imagePair}{1}(2);
+            y_pred = data1(1,j)+translations{imagePair}{1}(1);
             plot(x_real,y_real,'g*');
             plot(x_pred,y_pred,'r*');
         end
     end
     title(sprintf('frame %d',fnum));           
     hold off; drawnow
-    j = j+1;
 end
 
