@@ -1,7 +1,7 @@
 %Parameters
-numOfFrames = 20; %set number frames 
+numOfFrames = 10; %set number frames 
 frameSkipRate = 1; %frame comparison distance
-frameindex = 7160;  %starting frame; range is 7022-7200
+frameindex = 7170;  %starting frame; range is 7022-7200
 filepath = '../frames/DaMultiview-seq';
 threshold = 235; %R threshold for harris corners
 alpha = 255; %controls how you want to choose corners at random
@@ -19,9 +19,14 @@ parseGroundTruthSupressed;
 [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex,...
     gtboxarray, filepath, threshold, alpha);
 
+
+
 %match corners and match boxes
 [cornerMatches, windowMatches] = matcher (corners, sFrameArr, numOfFrames,...
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
+
+
+
 
 %Compute Accuracy
 accuracy = Acurrator(windowMatches,gtboxarray,sFrameArr);
