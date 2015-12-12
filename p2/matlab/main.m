@@ -7,13 +7,13 @@ parseGroundTruthSupressed;
 
 numOfFrames = 10; %set number frames 
 frameSkipRate = 1; %distance between next frame chosen, greater the distance more of a change of windows
-frameindex = 7022;  %starting frame; range is 7024-7200s
+frameindex = 7170;  %starting frame; range is 7024-7200s
 filepath = '../frames/DaMultiview-seq';
 threshold = 235;
 alpha = 0.15;
 cornerPatchSizeX = 12;
 cornerPatchSizeY = 12;
-
+%get boxes and features (harris corners)
 [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex,...
     gtboxarray, filepath, threshold, alpha);
 
@@ -28,10 +28,30 @@ for k = 1 : numel(cs) / 2
 end
 hold off;
 %}
-
+%match
 [cornerMatches, windowMatches] = matcher (corners, sFrameArr, numOfFrames,...
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
 
+
+%Compute Accuracy
+count = 0;
+count2 = 0;
+for i=1:9
+    dims = size(windowMatches{i});
+    for j=1:dims(1)
+       if windowMatches{i}(j) == j
+           count = count + 1;
+       end
+       count2 = count2+1;
+    end
+end
+
+display(count);
+display(count2);
+display(double(count)/double(count2));
+
+display(Acurrator(windowMatches,gtboxarray,sFrameArr));
+%Ransac
 translations={};
 translationsByWindow = {};
 groundTruthTranslations;
@@ -45,3 +65,4 @@ for i=1:size(cornerMatches,2)
     end
 end
     
+

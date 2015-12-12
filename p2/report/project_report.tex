@@ -1,0 +1,99 @@
+\documentclass{article}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{draftwatermark}
+\usepackage {sectsty}
+\usepackage{hyperref}
+\usepackage [dvipsnames]{xcolor}
+
+\lstset{ %
+	language=C,
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\ttfamily\color{blue}\footnotesize,
+	commentstyle=\color{OliveGreen}\ttfamily\footnotesize,
+	texcl,
+	escapechar =`
+	escapebegin=\lst@commentstyle,
+	showspaces=false,
+	showtabs=false,
+	numbers=left,
+	showstringspaces=false,
+	frame=single
+}
+\makeatother
+
+
+\pagestyle{fancy}
+\renewcommand{\rightmark}{}
+
+\SetWatermarkText{DRAFT}
+\SetWatermarkScale{5}
+\SetWatermarkLightness{.98}
+
+\sectionfont{\color{cyan}}
+\author{Sean Curran \\
+\and Stephen Durofchalk \\
+\and Zachary Feldman \\
+\and Ryan Wails}
+\title{CMPEN/EE 454 Project 2 Report}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\pagenumbering{roman}
+\setcounter{page}{1}
+\setcounter{tocdepth}{2}
+\tableofcontents
+\thispagestyle{plain}
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\section{Integral Algorithms}
+\subsection{Harris Corner Detection}
+\subsubsection{Synopsis}
+Harris corner detection is an algorithm which detect corners in images that can be used to create point correspondences between time series images.  A ``corner'' can loosely be defined as a feature in the image with relatively large $\frac{\partial f}{\partial x}$ and $\frac{\partial f}{\partial y}$ values.
+\subsubsection{Implementation}
+Below the implementation of the Harris corner detection algorithm in C-like pseudocode.
+\begin{lstlisting}
+
+intensity_image harris(original_image, patch_indices) {
+
+	// Compute the image patch.
+	intensity_img = convert_to_intensity_image(original_image);
+	img_patch = compute_patch(intensity_img, patch_indices);
+	
+	// Compute partial x and y, mixed derivatives.
+	ix = convolve_sobel_x(img_patch);
+	iy = convolve_sobel_y(img_patch);
+	
+	ix2 = ix * ix;
+	iy2 = iy * iy;
+	ixy = ix * iy;
+
+	// Compute sums using a Gaussian windowing function
+	sx2 = convolve_gaussian(ix2);
+	sy2 = convolve_gaussian(iy2);
+	sxy = convolve_gaussian(ixy);
+	
+	// For each pixel in the image, compute H matrix,
+	// compute product of eigenvalues scaled by k = 0.07,
+	// and store the response value as r.
+	for (px : img_patch) {
+		H = {{sx2(px), sxy(px)}, {sxy(px) sy2(px)}};
+		r(px) = det(H) - 0.07 * trace(H) * trace(H);
+	}
+	
+	return r;
+}
+
+\end{lstlisting}
+This routine returns non-normalized intensity image where strong intensities correspond to corner points in the image patch.  Once this intensity image has been computed, it is passed to a thresholding routine where the coordinate points of these corners is determined.
+\subsection{Patch Matching}
+\subsection{RANSAC}
+
+\end{document}

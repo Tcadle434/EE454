@@ -10,6 +10,8 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
         frame2 = frame+1;
         frame1boxstart = sFrameArr(frame1);
         frame2boxstart = sFrameArr(frame2);
+        frame1boxstartcorners = frame1boxstart - sFrameArr(frame1) + 1;
+        frame2boxstartcorners = frame2boxstart - sFrameArr(frame2) + 1;
         %number of boxes
         i1boxes = frame2boxstart - frame1boxstart;
         if frame ~= numOfFrames-1
@@ -41,8 +43,8 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
                 w1 = gtboxarray(frame1boxstart+b1-1,:);
                 w2 = gtboxarray(frame2boxstart+b2-1,:);
                 %number of corners
-                dim1 = size(corners{frame1boxstart+b1-1});
-                dim2 = size(corners{frame2boxstart+b2-1});
+                dim1 = size(corners{frame1boxstartcorners+b1-1});
+                dim2 = size(corners{frame2boxstartcorners+b2-1});
                 i1corners = dim1(2);
                 i2corners = dim2(2);
        
@@ -83,8 +85,8 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
                 for c1 = 1:i1corners
                    for c2 = 1:i2corners
                         ssd = SumOfSqaureDifferences(...
-                            i1,i2,corners{frame1boxstart+b1-1}(:,c1),...
-                            corners{frame2boxstart+b2-1}(:,c2),cornerpatchx,...
+                            i1,i2,corners{frame1boxstartcorners+b1-1}(:,c1),...
+                            corners{frame2boxstartcorners+b2-1}(:,c2),cornerpatchx,...
                             cornerpatchy,w1,w2);
                         cornermatchmatrix(c1,c2) = ssd;
                    end
@@ -97,10 +99,56 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
         end
         cornerMatches(frame) = {cornerMatchesByWindow};
         
+        
+        
         [aboxes,cboxes] = assignmentoptimal(boxmatchmatrix);
+        
+        %{
+        for abox=1:numel(aboxes)
+        
+            w1 = gtboxarray(frame1boxstart+abox-1,:);
+            w2 = gtboxarray(frame2boxstart+aboxes(abox)-1,:);
+                
+            figure;
+            imagesc(i1);
+
+            hold on
+            cs = corners{frame1boxstart+b1-1}(:,:);
+            cs(1,:) = cs(1,:)+w1(4);
+            cs(2,:) = cs(2,:)+w1(3);
+            cs1 = cs;
+            bb = w1;
+            for k = 1 : numel(cs) / 2
+                plot(cs(2,k), cs(1,k), 'r*');
+                plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
+            end
+            hold off;
+
+            figure;
+            imagesc(i2);
+
+            hold on
+            cs = corners{frame2boxstart+b2-1}(:,:);
+            bb = w2;
+            cs(1,:) = cs(1,:)+w2(4);
+            cs(2,:) = cs(2,:)+w2(3);
+            cs2 = cs;
+            for k = 1 : numel(cs) / 2
+                plot(cs(2,k), cs(1,k), 'r*');
+                plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
+            end
+            hold off;
+            
+            close all force;
+            
+                    
+        end
+        %}
+        
         windowMatches(frame) = {aboxes};
     end
 
+  
 
 end
 
