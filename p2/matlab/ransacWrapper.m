@@ -22,8 +22,8 @@ function [data1,data2] = ransacWrapper(cornerMatches,windowMatches,...
                 xmin1 = gtBoxArray(sFrameArr(imagePair)+w1-1,3);
                 ymin1 = gtBoxArray(sFrameArr(imagePair)+w1-1,4);
                 % get the (x,y) coordinates of this corner
-                x1 = corners{sFrameArr(imagePair)+w1-1}(2,j)+xmin1;
-                y1 = corners{sFrameArr(imagePair)+w1-1}(1,j)+ymin1;
+                x1 = corners{sFrameArr(imagePair)+w1-sFrameArr(1)}(2,j)+xmin1;
+                y1 = corners{sFrameArr(imagePair)+w1-sFrameArr(1)}(1,j)+ymin1;
                 
                 data1(2,j) = x1;
                 data1(1,j) = y1;
@@ -32,8 +32,9 @@ function [data1,data2] = ransacWrapper(cornerMatches,windowMatches,...
                 xmin2 = gtBoxArray(sFrameArr(imagePair+1)+w2-1,3);
                 ymin2 = gtBoxArray(sFrameArr(imagePair+1)+w2-1,4);
                 % get the (x,y) coordinates of this corner
-                x2 = corners{sFrameArr(imagePair+1)+w2-1}(2,corner2Num)+xmin2;
-                y2 = corners{sFrameArr(imagePair+1)+w2-1}(1,corner2Num)+ymin2;
+                x2 = corners{sFrameArr(imagePair+1)+w2-sFrameArr(1)}(2,corner2Num)+xmin2;
+
+                y2 = corners{sFrameArr(imagePair+1)+w2-sFrameArr(1)}(1,corner2Num)+ymin2;
                 
                 data2(2,j) = x2;
                 data2(1,j) = y2;
