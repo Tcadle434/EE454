@@ -10,8 +10,8 @@ function [ cornerMatches, windowMatches ] = matcher( corners, sFrameArr, numOfFr
         frame2 = frame+1;
         frame1boxstart = sFrameArr(frame1);
         frame2boxstart = sFrameArr(frame2);
-        frame1boxstartcorners = frame1boxstart - sFrameArr(frame1) + 1;
-        frame2boxstartcorners = frame2boxstart - sFrameArr(frame2) + 1;
+        frame1boxstartcorners = frame1boxstart - sFrameArr(1) + 1;
+        frame2boxstartcorners = frame2boxstart - sFrameArr(1) + 1;
         %number of boxes
         i1boxes = frame2boxstart - frame1boxstart;
         if frame ~= numOfFrames-1
