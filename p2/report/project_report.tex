@@ -285,6 +285,16 @@ for (i = 1 to num_iterations) {
 \end{lstlisting}
 \end{minipage}
 
+\section{Intermediate Results}
+In this section we include results from the various modules implemented in this program.  These results were used to verify correctness of each particular unit of code, as well as tune the entire program to produce accurate results.
+\subsection{Harris Corner Detection}
+To test our implementation of the Harris Corner Detection algorithm, we used various images containing geometric scenes.  For example, below is a skyscraper facade passed through our routine.  As expected, the corner points on each window have very high intensity values and the edges in the image have very low intensity values.
+\begin{center}
+\fbox{\includegraphics[width=150pt, height=150pt]{harrisinput}}
+\fbox{\includegraphics[width=150pt, height=150pt]{harrisoutput}}
+\end{center}
+
+\newpage
 \begin{appendices}
 \section{Source Code Listings}\label{source}
 % \lstinputlisting[escapechar=,language=Matlab,caption=blob2px.m,breaklines=true]{../matlab/blob2px.m}
