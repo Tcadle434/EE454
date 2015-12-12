@@ -1,8 +1,10 @@
-function [output, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex, gtboxarray, filenameArr, sFrameArr, threshold, alpha)
+function [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate,...
+    frameindex, gtboxarray, filepath, threshold, alpha)
    
-    output = [];
+    filenameArr = [];
+    corners = [];
+    sFrameArr = [];
 
-    filepath = '../frames/DaMultiview-seq';
    for n = 1:numOfFrames
         if frameindex < 7200  %make sure number of trials and skip rate doesnt exceed highest indexed frame
             filename = strcat(filepath, num2str(frameindex));
@@ -48,7 +50,7 @@ function [output, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex, gt
             str = char(filenameArr(n)); %convert cell to string
             image = imread(str);
             img = harris(image,tXmin,tXmax,tYmin,tYmax);
-            output = [output { blob2px( img, threshold, alpha ) }];
+            corners = [corners { blob2px( img, threshold, alpha ) }];
             tempIndex = tempIndex + 1;
         end
     end

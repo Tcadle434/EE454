@@ -23,8 +23,8 @@ for findex = 1:numframes
         yc = sscanf(boxAtt.yc,'%f');        
         xmin = floor(xc-w/2);
         ymin = floor(yc-h/2);
-        xmax = ceil(xc+w/2);
-        ymax = ceil(yc+h/2);
+        xmax = floor(xc+w/2);
+        ymax = floor(yc+h/2);
         gtboxarray(end+1,:) = [fnum id xmin ymin xmax ymax];
     end 
 end

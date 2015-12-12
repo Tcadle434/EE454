@@ -3,7 +3,7 @@ function [ out ] = pruneMatrixScaled( x, alpha )
 
 out = x;
 
-for k = 1 : numel(out)
+for k = 1 : 0%numel(out)
     if (rand() * 255 > out(k) * alpha)
         out(k) = 0;
     end
