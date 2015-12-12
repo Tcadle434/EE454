@@ -1,7 +1,9 @@
 %Parameters
-numOfFrames = 30; %set number frames 
-frameSkipRate = 1; %frame comparison distance
-frameindex = 7022;  %starting frame; range is 7022-7200
+numOfFrames = 10; %set number frames 
+frameSkipRate = 1; %DON"T CHANGE THIS! THE PROGRAM ONLY FUNCTIONS 
+                    %IF IT IS SET TO 1
+                    %frame comparison distance
+frameindex = 7170;  %starting frame; range is 7022-7200
 filepath = '../frames/DaMultiview-seq';
 threshold = 235; %R threshold for harris corners
 alpha = 255; %controls how you want to choose corners at random
@@ -19,9 +21,14 @@ parseGroundTruthSupressed;
 [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex,...
     gtboxarray, filepath, threshold, alpha);
 
+
+
 %match corners and match boxes
 [cornerMatches, windowMatches] = matcher (corners, sFrameArr, numOfFrames,...
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
+
+%open up drawdemo.m to learn about what it is and how to configure it
+drawdemo;
 
 %Compute Accuracy
 accuracy = Acurrator(windowMatches,gtboxarray,sFrameArr);
@@ -33,13 +40,15 @@ disp( sprintf( ...
 translations={};
 translationsByWindow = {};
 groundTruthTranslations;
+disp(sprintf('Running RANSAC on all windows in all images.'));
 for i=1:size(cornerMatches,2)
-    disp(['running ransac on image: ',num2str(i)]);
     for j=1:size(windowMatches{i},1)
         [data1,data2] = ransacWrapper(cornerMatches,windowMatches,i,j,...
             sFrameArr,gtboxarray,corners);
-        [translations,translationsByWindow] = ransac(data1,data2,10000,1,...
+        [translations,translationsByWindow] = ransac(data1,data2,10000,2,...
             0.1,i,j,translations,translationsByWindow);
     end
+    ransacDisplay(cornerMatches,windowMatches,i,sFrameArr,...
+        gtboxarray,corners,translations);
 end
     

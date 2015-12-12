@@ -34,7 +34,6 @@ function [data1,data2] = ransacWrapper(cornerMatches,windowMatches,...
                 ymin2 = gtBoxArray(sFrameArr(imagePair+1)+w2-1,4);
                 % get the (x,y) coordinates of this corner
                 x2 = corners{sFrameArr(imagePair+1)+w2-sFrameArr(1)}(2,corner2Num)+xmin2;
-
                 y2 = corners{sFrameArr(imagePair+1)+w2-sFrameArr(1)}(1,corner2Num)+ymin2;
                 
                 data2(2,j) = x2;
