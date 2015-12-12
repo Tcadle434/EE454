@@ -13,7 +13,7 @@ threshold = 235;
 alpha = 0.15;
 cornerPatchSizeX = 12;
 cornerPatchSizeY = 12;
-
+%get boxes and features (harris corners)
 [corners, sFrameArr] = phase1(numOfFrames, frameSkipRate, frameindex,...
     gtboxarray, filepath, threshold, alpha);
 
@@ -28,12 +28,12 @@ for k = 1 : numel(cs) / 2
 end
 hold off;
 %}
-
+%match
 [cornerMatches, windowMatches] = matcher (corners, sFrameArr, numOfFrames,...
     gtboxarray, filepath, frameindex, cornerPatchSizeX, cornerPatchSizeY);
 
 
-
+%Compute Accuracy
 count = 0;
 count2 = 0;
 for i=1:9
@@ -50,6 +50,8 @@ display(count);
 display(count2);
 display(double(count)/double(count2));
 
+display(Acurrator(windowMatches,gtboxarray,sFrameArr));
+%Ransac
 translations={};
 translationsByWindow = {};
 groundTruthTranslations;
