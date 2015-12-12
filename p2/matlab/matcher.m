@@ -1,10 +1,20 @@
 function [ cornerMatches, windowMatches, affinityWindowMatchMatrices ]...
     = matcher( corners, sFrameArr, numOfFrames, ...
     gtboxarray, filepath, frameindex, cornerpatchx, cornerpatchy)
+%This function takes in the images, he harris corners, and the bounding-boxes
+%and it tries to match boxes in an image with the image preceding it for a 
+%series of images. 
+%It pulls bounding box information from gtboxarray.
+%It pulls the images directly from the .png files.
+%It pulls the Harris Corners from corners.
+%It outputs the corner matches that are deemed optimal between all 
+%combinations of boxes when trying to match boxes between
+%images.(cornerMatches)
+%It also outupts the window matches in windowMatches.
+%IT also outputs the affinity matrix it uses to determine windowMatches and
+%that is stored in affinityWindowMatchMatrices
 
-    %cornerMatches = [];%zeros(numOfFrames-1);
-    %windowMatches = [];%zeros(numOfFrames-1);
-    
+
 %match up corners
     for frame = 1:numOfFrames-1
         frame1 = frame;
@@ -51,38 +61,6 @@ function [ cornerMatches, windowMatches, affinityWindowMatchMatrices ]...
        
                 cornermatchmatrix = zeros(i1corners,i2corners);
                 
-                   %{
-                    figure;
-                    imagesc(i1);
-
-                    hold on
-                    cs = corners{frame1boxstart+b1-1}(:,:);
-                    cs(1,:) = cs(1,:)+w1(4);
-                    cs(2,:) = cs(2,:)+w1(3);
-                    cs1 = cs;
-                    bb = w1;
-                    for k = 1 : numel(cs) / 2
-                        plot(cs(2,k), cs(1,k), 'r*');
-                        plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
-                    end
-                    hold off;
-                    
-                    figure;
-                    imagesc(i1);
-
-                    hold on
-                    cs = corners{frame2boxstart+b2-1}(:,:);
-                    bb = w2;
-                    cs(1,:) = cs(1,:)+w2(4);
-                    cs(2,:) = cs(2,:)+w2(3);
-                    cs2 = cs;
-                    for k = 1 : numel(cs) / 2
-                        plot(cs(2,k), cs(1,k), 'r*');
-                        plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
-                    end
-                    hold off;
-                   %}
-                
                 for c1 = 1:i1corners
                    for c2 = 1:i2corners
                         ssd = SumOfSqaureDifferences(...
@@ -103,49 +81,7 @@ function [ cornerMatches, windowMatches, affinityWindowMatchMatrices ]...
         affinityWindowMatchMatrices(frame) = {boxmatchmatrix};
         
         [aboxes,cboxes] = assignmentoptimal(boxmatchmatrix);
-        
-        %{
-        for abox=1:numel(aboxes)
-        
-            w1 = gtboxarray(frame1boxstart+abox-1,:);
-            w2 = gtboxarray(frame2boxstart+aboxes(abox)-1,:);
-                
-            figure;
-            imagesc(i1);
 
-            hold on
-            cs = corners{frame1boxstart+b1-1}(:,:);
-            cs(1,:) = cs(1,:)+w1(4);
-            cs(2,:) = cs(2,:)+w1(3);
-            cs1 = cs;
-            bb = w1;
-            for k = 1 : numel(cs) / 2
-                plot(cs(2,k), cs(1,k), 'r*');
-                plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
-            end
-            hold off;
-
-            figure;
-            imagesc(i2);
-
-            hold on
-            cs = corners{frame2boxstart+b2-1}(:,:);
-            bb = w2;
-            cs(1,:) = cs(1,:)+w2(4);
-            cs(2,:) = cs(2,:)+w2(3);
-            cs2 = cs;
-            for k = 1 : numel(cs) / 2
-                plot(cs(2,k), cs(1,k), 'r*');
-                plot(bb([3 3 5 5 3]),bb([4 6 6 4 4]),'g-');
-            end
-            hold off;
-            
-            close all force;
-            
-                    
-        end
-        %}
-        
         windowMatches(frame) = {aboxes};
     end
 

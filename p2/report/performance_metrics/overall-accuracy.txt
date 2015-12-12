@@ -1,0 +1,2 @@
+Box Matching Accuracy Against Ground Truth:92.59%
+starting from 7170 we compared an image to the preceding image ( 7170 to 7171 all the way up to 7179 to 7180

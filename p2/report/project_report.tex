@@ -303,7 +303,23 @@ The algorithm does a good job of suppressing the uniform regions of the image (t
 
 \subsection{Matching}
 
+\section{Results}
 
+\subsection{Matching Results}
+We wrote our code to look for box matches for an image with the image that preceded it in the set. For example, we would look for box matching between image 7170 and image 7171. When running it on a series of 10 images starting with 7170 and ending with 7180, our program matched boxes correctly 92.59\% of the time. 
+~\\~\\
+When running the program on images earlier on in the image data set, like 7022, the program matched boxes correctly around 75\% of the time. The explanation for this is in the beginning the people cluster together and many of them are wearing similar clothing so it hard for the program to distinguish features. Towards the end of the image set the people begin to spread out again and it becomes easy for the program to accurately match boxes again. 
+~\\~\\~\\
+\begin{LARGE}
+	THIS SECTION SHOUILD BE MOVED INTO THE INTERMEDIATE RESULTS SECTION ABOVE AS STATED BY THE RUBRIC.
+\end{LARGE}
+Shown below is a graph of the affinity matrix for matching boxes between image 7170 and 7171. The value at each location is the cost of pairing box x in image 7170 with box y in 7171; where a lower cost is better.
+~\\
+\begin{center}
+\fbox{\includegraphics[scale=.8]{affinitymatrix-box-matching-example-7170-to-7171.png}}
+\end{center}
+~\\~\\~\\
+Be aware that the program can be ran, accuracy can be computed, and the affinity matrices can be displayed by configuring the settings in main.m and by running the main.m script. Running the main.m script will also show some intermediate results to help demonstrate what the program does.
 \newpage
 \begin{appendices}
 \section{Source Code Listings}\label{source}
